@@ -1,4 +1,4 @@
-package com.example.zsplit;
+package com.example.zsplit.splitmodel;
 
 import android.view.ViewGroup;
 import android.widget.LinearLayout;

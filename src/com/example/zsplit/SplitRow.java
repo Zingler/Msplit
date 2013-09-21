@@ -1,5 +1,7 @@
 package com.example.zsplit;
 
+import com.example.zsplit.splitmodel.Split;
+
 import android.content.Context;
 import android.graphics.Color;
 import android.util.AttributeSet;

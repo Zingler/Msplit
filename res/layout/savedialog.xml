@@ -1,0 +1,15 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/buttonlayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/buttonlayout"
+    android:layout_alignParentBottom="true"
+    android:layout_centerHorizontal="true" >
+    
+    <EditText
+        android:id="@+id/save_filename"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:text="this is a message"/>
+
+</LinearLayout>

@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.example.zsplit.splitmodel.SplitList;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -20,9 +22,9 @@ public class Run {
 	TextView maintimer;
 	ArrayList<SplitRow> splits;
 
-	public Run(Activity activity, ArrayList<SplitRow> splits){
+	public Run(Activity activity, SplitList splits, ArrayList<SplitRow> splitsview){
 		this.activity = activity;
-		this.splits = splits;
+		this.splits = splitsview;
 		maintimer = (TextView)activity.findViewById(R.id.maintimer);
 	}
 	

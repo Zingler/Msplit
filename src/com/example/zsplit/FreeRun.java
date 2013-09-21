@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.example.zsplit.splitmodel.Split;
+
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -19,7 +21,7 @@ public class FreeRun extends Run{
 	private ScrollView scroller;
 
 	public FreeRun(Activity activity){
-		super(activity, new ArrayList<SplitRow>());
+		super(activity, null, new ArrayList<SplitRow>());
 		mainActivity = (MainActivity)activity;
 		scroller = (ScrollView)mainActivity.findViewById(R.id.scrollView1);
 	}
@@ -56,7 +58,7 @@ public class FreeRun extends Run{
 		
 		activity.runOnUiThread(new Runnable(){
 			public void run() {
-				mainActivity.splitList.addView(s);
+				mainActivity.splitTable.addView(s);
 			}
 		});
 	}

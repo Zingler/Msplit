@@ -1,69 +1,57 @@
 package com.example.zsplit;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import com.example.zsplit.splitmodel.SplitList;
+import com.example.zsplit.splitmodel.SplitListUtil;
+
 import android.os.Bundle;
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
 
     public int counter = 0;
     public TextView mainTimer;
     public Timer stopwatch;
-	public LinearLayout splitList;
-	Run run;
+	public LinearLayout splitTable;
+	public SplitListUtil splitListUtil;
+	public Run run;
+	public SplitList splits;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainTimer = (TextView)findViewById(R.id.maintimer);
-        splitList = (LinearLayout)findViewById(R.id.splittable);
-        splitList.removeAllViews();
-        ArrayList<SplitRow> splitRows = new ArrayList<SplitRow>();
+        splitListUtil = new SplitListUtil(this);
         
-        SplitRow s;
-        s = new SplitRow(this, null, new Split("Escape", 2966));
-        splitRows.add(s); 
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Kakriko", 3685));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Bottle", 4971));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Deku", 6308));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Gohma", 7648));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Ganandorf", 8366));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Collapse", 9582));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        s = new SplitRow(this, null, new Split("Ganon", 11763));
-        splitRows.add(s);
-        splitList.addView(s);
-        
-        //run = new FreeRun(this);
-        run = new Run(this, splitRows);
+        splits = splitListUtil.SampleSplitList();
+        changeToRun(splits);
     }
+
+	private void changeToRun(SplitList splits) {
+		splitTable = (LinearLayout)findViewById(R.id.splittable);
+        splitTable.removeAllViews();
+        
+        ArrayList<SplitRow> splitRows = SplitViewGenerator.generateSplitViews(this, splits);
+        for(SplitRow row : splitRows){
+        	splitTable.addView(row);
+        }
+
+        run = new Run(this, splits, splitRows);
+	}
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -76,7 +64,7 @@ public class MainActivity extends Activity {
         // Handle item selection
         switch (item.getItemId()) {
         case R.id.save_split:
-        	
+        	createSaveDialog().show();
             return true;
         default:
             return super.onOptionsItemSelected(item);
@@ -97,5 +85,29 @@ public class MainActivity extends Activity {
     }
     public void splitButtonClicked(View view) {
         run.split();
+    }
+    
+    public AlertDialog createSaveDialog(){
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Save as...");
+    	View v = this.getLayoutInflater().inflate(R.layout.savedialog, null);
+    	final EditText filename = ((EditText)v.findViewById(R.id.save_filename));
+    	if(splits.filename!=null){
+    		filename.setText(splits.filename);
+    	}
+    	builder.setView(v);
+    	builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				splits.filename = filename.getText().toString();
+				try{
+					splitListUtil.save(splits);
+				} catch(IOException e){
+					Toast.makeText(getApplicationContext(), "Could not save the file", Toast.LENGTH_SHORT).show();
+				}
+			}
+		});
+    	builder.setNegativeButton("Cancel", null);
+    	return builder.show();
     }
 }
