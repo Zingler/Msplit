@@ -1,6 +1,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:id="@+id/save_split"
-        android:title="Save"
-        android:orderInCategory="100"
-        android:showAsAction="never" />
+        android:title="Save"/>
+    <item android:id="@+id/load_split"
+        android:title="Load"/>
+    <item android:id="@+id/free_run"
+        android:title="Free run"/>
 </menu>

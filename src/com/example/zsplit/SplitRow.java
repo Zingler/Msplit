@@ -1,6 +1,6 @@
 package com.example.zsplit;
 
-import com.example.zsplit.splitmodel.Split;
+import com.example.zsplit.urnmodel.UrnSplit;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -9,19 +9,19 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SplitRow extends RelativeLayout {
-	public Split split;
+	public UrnSplit split;
 	public TextView timeView;
 	
 	public SplitRow(Context context, AttributeSet attrs) {
-		this(context, attrs, new Split("Sample Split", 100));
+		this(context, attrs, new UrnSplit("Sample Split", 100));
 	}
 
-	public SplitRow(Context context, AttributeSet attrs, Split s) {
+	public SplitRow(Context context, AttributeSet attrs, UrnSplit s) {
 		super(context, attrs);
 		this.split = s;
 		if (!isInEditMode()) {
 			TextView titleView = new TextView(context, null, android.R.attr.textAppearanceLarge);
-			titleView.setText(s.title);
+			titleView.setText(s.name);
 			timeView = new TextView(context, null, android.R.attr.textAppearanceLarge);
 			
 			this.addView(titleView);

@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.zsplit.splitmodel.Split;
+import com.example.zsplit.urnmodel.Urn;
+import com.example.zsplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -22,6 +23,7 @@ public class FreeRun extends Run{
 
 	public FreeRun(Activity activity){
 		super(activity, null, new ArrayList<SplitRow>());
+		runSplits = new ArrayList<RunSplit>();
 		mainActivity = (MainActivity)activity;
 		scroller = (ScrollView)mainActivity.findViewById(R.id.scrollView1);
 	}
@@ -37,6 +39,7 @@ public class FreeRun extends Run{
 		time = 0;
 		splitIndex = 0;
 		splits.clear();
+		runSplits.clear();
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -47,13 +50,11 @@ public class FreeRun extends Run{
 	}
 	
 	public void split(){
-		if(!isRunning){
-			return;
-		}
 		int splitTime = time;
+		runSplits.add(new RunSplit(time));
 		splitIndex++;
 		
-		final SplitRow s = new SplitRow(activity, null, new Split("", splitTime));
+		final SplitRow s = new SplitRow(activity, null, new UrnSplit("", splitTime));
 		splits.add(s);
 		
 		activity.runOnUiThread(new Runnable(){
@@ -61,6 +62,15 @@ public class FreeRun extends Run{
 				mainActivity.splitTable.addView(s);
 			}
 		});
+	}
+	
+	@Override
+	public Urn createUrnFromRun(){
+		Urn newUrn = new Urn();
+		for(RunSplit r : runSplits){
+			newUrn.add(new UrnSplit(null, r.time));
+		}
+		return newUrn;
 	}
 
 	

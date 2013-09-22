@@ -4,12 +4,13 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
-import com.example.zsplit.splitmodel.SplitList;
-import com.example.zsplit.splitmodel.SplitListUtil;
+import com.example.zsplit.urnmodel.Urn;
+import com.example.zsplit.urnmodel.UrnUtil;
 
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -27,30 +28,39 @@ public class MainActivity extends Activity {
     public TextView mainTimer;
     public Timer stopwatch;
 	public LinearLayout splitTable;
-	public SplitListUtil splitListUtil;
+	public UrnUtil splitListUtil;
 	public Run run;
-	public SplitList splits;
+	public Urn urn;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mainTimer = (TextView)findViewById(R.id.maintimer);
-        splitListUtil = new SplitListUtil(this);
+        splitListUtil = new UrnUtil(this);
         
-        splits = splitListUtil.SampleSplitList();
-        changeToRun(splits);
+        urn = splitListUtil.sampleUrn();
+        changeToRun(urn);
     }
 
-	private void changeToRun(SplitList splits) {
+	private void changeToRun(Urn newUrn) {
+		this.urn = newUrn;
 		splitTable = (LinearLayout)findViewById(R.id.splittable);
         splitTable.removeAllViews();
         
-        ArrayList<SplitRow> splitRows = SplitViewGenerator.generateSplitViews(this, splits);
+        ArrayList<SplitRow> splitRows = SplitViewGenerator.generateSplitViews(this, newUrn);
         for(SplitRow row : splitRows){
         	splitTable.addView(row);
         }
 
-        run = new Run(this, splits, splitRows);
+        run = new Run(this, urn, splitRows);
+        run.reset();
+	}
+	
+	private void changeToFreeRun() {
+		splitTable = (LinearLayout)findViewById(R.id.splittable);
+        splitTable.removeAllViews();
+
+        run = new FreeRun(this);
 	}
 
     @Override
@@ -66,12 +76,18 @@ public class MainActivity extends Activity {
         case R.id.save_split:
         	createSaveDialog().show();
             return true;
+        case R.id.load_split:
+        	createLoadDialog().show();
+        	return true;
+        case R.id.free_run:
+        	changeToFreeRun();
+        	return true;
         default:
             return super.onOptionsItemSelected(item);
         }
     }
-    
-    public void startButtonClicked(View view) {
+
+	public void startButtonClicked(View view) {
         run.start();
         if(run.isRunning){
         	((TextView)view).setText("Pause");
@@ -82,6 +98,7 @@ public class MainActivity extends Activity {
     }
     public void resetButtonClicked(View view) {
         run.reset();
+        ((TextView)findViewById(R.id.start)).setText("Start");
     }
     public void splitButtonClicked(View view) {
         run.split();
@@ -92,22 +109,46 @@ public class MainActivity extends Activity {
     	builder.setTitle("Save as...");
     	View v = this.getLayoutInflater().inflate(R.layout.savedialog, null);
     	final EditText filename = ((EditText)v.findViewById(R.id.save_filename));
-    	if(splits.filename!=null){
-    		filename.setText(splits.filename);
+    	if(urn.filename!=null){
+    		filename.setText(urn.filename);
     	}
     	builder.setView(v);
     	builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				splits.filename = filename.getText().toString();
+				String newName = filename.getText().toString();
 				try{
-					splitListUtil.save(splits);
+					Urn newUrn = run.createUrnFromRun();
+					newUrn.filename = newName;
+					splitListUtil.save(newUrn);
+					changeToRun(newUrn);
 				} catch(IOException e){
 					Toast.makeText(getApplicationContext(), "Could not save the file", Toast.LENGTH_SHORT).show();
 				}
 			}
 		});
     	builder.setNegativeButton("Cancel", null);
-    	return builder.show();
+    	return builder.create();
     }
+    
+    private AlertDialog createLoadDialog() {
+    	AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    	builder.setTitle("Load");
+    	final String[] list = splitListUtil.listUrns();
+    	builder.setItems(list, new DialogInterface.OnClickListener() {
+			@Override
+			public void onClick(DialogInterface dialog, int which) {
+				try{
+					Urn loadedList = splitListUtil.load(list[which]);
+					changeToRun(loadedList);
+					Toast.makeText(getApplicationContext(), "Loaded "+list[which], Toast.LENGTH_SHORT).show();
+				} catch(Exception e){
+					Toast.makeText(getApplicationContext(), "Could not load the Split", Toast.LENGTH_SHORT).show();
+				} finally {
+					dialog.dismiss();
+				}
+			}
+		});
+		return builder.create();
+	}
 }

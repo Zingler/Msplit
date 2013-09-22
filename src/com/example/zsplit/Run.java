@@ -4,7 +4,8 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.zsplit.splitmodel.SplitList;
+import com.example.zsplit.urnmodel.Urn;
+import com.example.zsplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
 import android.content.Context;
@@ -21,10 +22,14 @@ public class Run {
 	protected Activity activity;
 	TextView maintimer;
 	ArrayList<SplitRow> splits;
+	private Urn urn;
+	protected ArrayList<RunSplit> runSplits;
 
-	public Run(Activity activity, SplitList splits, ArrayList<SplitRow> splitsview){
+	public Run(Activity activity, Urn urn, ArrayList<SplitRow> splitsview){
 		this.activity = activity;
+		this.urn = urn;
 		this.splits = splitsview;
+		this.runSplits = new ArrayList<RunSplit>();
 		maintimer = (TextView)activity.findViewById(R.id.maintimer);
 	}
 	
@@ -45,10 +50,13 @@ public class Run {
 	}
 
 	public void reset() {
-		stopwatch.cancel();
+		if(stopwatch!=null){
+			stopwatch.cancel();
+		}
 		isRunning = false;
 		time = 0;
 		splitIndex = 0;
+		runSplits = new ArrayList<RunSplit>();
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
@@ -61,9 +69,6 @@ public class Run {
 	}
 	
 	public void split(){
-		if(!isRunning){
-			return;
-		}
 		SplitRow s = splits.get(splitIndex);
 		splitIndex++;
 		if(splitIndex >= splits.size()){
@@ -71,6 +76,7 @@ public class Run {
 		}
 		
 		int splitTime = time;
+		runSplits.add(new RunSplit(time));
 		final int delta = splitTime - s.split.time;
 		final String deltaString = Util.formatTimerStringNoZeros(delta, true);
 		final TextView t = (TextView)s.timeView;
@@ -88,6 +94,19 @@ public class Run {
 		});
 	}
 
+	public Urn createUrnFromRun(){
+		Urn newUrn = new Urn();
+		newUrn.filename = urn.filename;
+		for(int i=0; i<runSplits.size(); i++){
+			newUrn.add(new UrnSplit(urn.get(i).name, runSplits.get(i).time));
+		}
+		for(int i=runSplits.size(); i<urn.size(); i++){
+			newUrn.add(new UrnSplit(urn.get(i).name, urn.get(i).time));
+		}
+		return newUrn;
+	}
+			
+	
 	class Ticker extends TimerTask {
 		Run urn;
 
