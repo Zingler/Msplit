@@ -1,5 +1,9 @@
 package com.example.zsplit;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.example.zsplit.urnmodel.Urn;
 import com.example.zsplit.urnmodel.UrnSplit;
 
 import android.content.Context;
@@ -8,34 +12,45 @@ import android.util.AttributeSet;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class SplitRow extends RelativeLayout {
-	public UrnSplit split;
-	public TextView timeView;
+public class SplitRow {
+	private UrnSplit urnSplit;
+	private RunSplit runSplit;
 	
-	public SplitRow(Context context, AttributeSet attrs) {
-		this(context, attrs, new UrnSplit("Sample Split", 100));
+	public SplitRow() {
+	}
+	
+	public SplitRow(UrnSplit urnSplit, RunSplit runSplit) {
+		super();
+		this.urnSplit = urnSplit;
+		this.runSplit = runSplit;
 	}
 
-	public SplitRow(Context context, AttributeSet attrs, UrnSplit s) {
-		super(context, attrs);
-		this.split = s;
-		if (!isInEditMode()) {
-			TextView titleView = new TextView(context, null, android.R.attr.textAppearanceLarge);
-			titleView.setText(s.name);
-			timeView = new TextView(context, null, android.R.attr.textAppearanceLarge);
-			
-			this.addView(titleView);
-			this.addView(timeView);
-			resetTimeText();
-			
-			RelativeLayout.LayoutParams lay = (RelativeLayout.LayoutParams)timeView.getLayoutParams();
-			lay.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
-		}
+	public UrnSplit getUrnSplit() {
+		return urnSplit;
+	}
+
+	public void setUrnSplit(UrnSplit urnSplit) {
+		this.urnSplit = urnSplit;
+	}
+
+	public RunSplit getRunSplit() {
+		return runSplit;
+	}
+
+	public void setRunSplit(RunSplit runSplit) {
+		this.runSplit = runSplit;
+	}
+
+	public void reset() {
+		runSplit = null;
 	}
 	
-	public void resetTimeText(){
-		timeView.setTextColor(Color.BLACK);
-		timeView.setText(Util.formatTimerStringNoZeros(split.time));
+	public static List<SplitRow> createSplitRows(Urn urn){
+		List<SplitRow> rows = new ArrayList<SplitRow>();
+		for(UrnSplit s: urn){
+			rows.add(new SplitRow(s, null));
+		}
+		return rows;
 	}
 
 }

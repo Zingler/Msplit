@@ -1,6 +1,7 @@
 package com.example.zsplit;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -19,17 +20,18 @@ public class Run {
 	public boolean isRunning = false;
 	public int time = 0;
 	public int splitIndex = 0;
-	protected Activity activity;
+	protected MainActivity activity;
 	TextView maintimer;
-	ArrayList<SplitRow> splits;
+	List<SplitRow> splits;
 	private Urn urn;
 	protected ArrayList<RunSplit> runSplits;
 
-	public Run(Activity activity, Urn urn, ArrayList<SplitRow> splitsview){
-		this.activity = activity;
+	public Run(){}
+	
+	public Run(Activity activity, Urn urn, List<SplitRow> splitsview){
+		this.activity = (MainActivity)activity;
 		this.urn = urn;
 		this.splits = splitsview;
-		this.runSplits = new ArrayList<RunSplit>();
 		maintimer = (TextView)activity.findViewById(R.id.maintimer);
 	}
 	
@@ -56,14 +58,14 @@ public class Run {
 		isRunning = false;
 		time = 0;
 		splitIndex = 0;
-		runSplits = new ArrayList<RunSplit>();
+		for(SplitRow s : splits){
+			s.reset();
+		}
+		activity.updateSplitList();
 		activity.runOnUiThread(new Runnable() {
 			@Override
 			public void run() {
 				maintimer.setText(Util.formatTimerString(0));
-				for(SplitRow s : splits){
-					s.resetTimeText();
-				}
 			}
 		});
 	}
@@ -74,34 +76,18 @@ public class Run {
 		if(splitIndex >= splits.size()){
 			stop();
 		}
-		
-		int splitTime = time;
-		runSplits.add(new RunSplit(time));
-		final int delta = splitTime - s.split.time;
-		final String deltaString = Util.formatTimerStringNoZeros(delta, true);
-		final TextView t = (TextView)s.timeView;
-		activity.runOnUiThread(new Runnable(){
-			public void run() {
-				if(delta>0){
-					t.setTextColor(Color.RED);
-				} else if (delta < 0){
-					t.setTextColor(0xFF2AB834);
-				} else {
-					t.setTextColor(Color.BLACK);
-				}
-				t.setText(deltaString);
-			}
-		});
+		s.setRunSplit(new RunSplit(time));
+		activity.updateSplitList();
 	}
 
 	public Urn createUrnFromRun(){
 		Urn newUrn = new Urn();
 		newUrn.filename = urn.filename;
 		for(int i=0; i<runSplits.size(); i++){
-			newUrn.add(new UrnSplit(urn.get(i).name, runSplits.get(i).time));
+			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit().getName(), splits.get(i).getUrnSplit().getTime()));
 		}
 		for(int i=runSplits.size(); i<urn.size(); i++){
-			newUrn.add(new UrnSplit(urn.get(i).name, urn.get(i).time));
+			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit()));
 		}
 		return newUrn;
 	}

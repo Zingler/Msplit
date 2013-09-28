@@ -4,11 +4,32 @@ import java.io.Serializable;
 
 public class UrnSplit implements Serializable{
 	private static final long serialVersionUID = 1L;
-	public String name;
-	public int time;
+	private String name;
+	private int time;
 
 	public UrnSplit(String title, int time){
 		this.name = title;
+		this.time = time;
+	}
+
+	public UrnSplit(UrnSplit urnSplit) {
+		this.name = urnSplit.getName();
+		this.time = urnSplit.getTime();
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public int getTime() {
+		return time;
+	}
+
+	public void setTime(int time) {
 		this.time = time;
 	}
 	

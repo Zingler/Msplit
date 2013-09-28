@@ -2,6 +2,7 @@ package com.example.zsplit;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Timer;
 
 import com.example.zsplit.edit.EditSplitActivity;
@@ -18,8 +19,10 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -29,7 +32,7 @@ public class MainActivity extends Activity {
     public int counter = 0;
     public TextView mainTimer;
     public Timer stopwatch;
-	public LinearLayout splitTable;
+	public ListView splitTable;
 	public UrnUtil splitListUtil;
 	public Run run;
 	public Urn urn;
@@ -37,6 +40,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        splitTable = (ListView)findViewById(R.id.splittable);
         
         mainTimer = (TextView)findViewById(R.id.maintimer);
         splitListUtil = new UrnUtil(this);
@@ -47,23 +51,23 @@ public class MainActivity extends Activity {
 
 	private void changeToRun(Urn newUrn) {
 		this.urn = newUrn;
-		splitTable = (LinearLayout)findViewById(R.id.splittable);
-        splitTable.removeAllViews();
         
-        ArrayList<SplitRow> splitRows = SplitViewGenerator.generateSplitViews(this, newUrn);
-        for(SplitRow row : splitRows){
-        	splitTable.addView(row);
-        }
+        List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
+        splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 
         run = new Run(this, urn, splitRows);
         run.reset();
 	}
 	
 	private void changeToFreeRun() {
-		splitTable = (LinearLayout)findViewById(R.id.splittable);
-        splitTable.removeAllViews();
+		List<SplitRow> splitRows = new ArrayList<SplitRow>();
+		splitTable.setAdapter(new SplitRowAdapter(this,splitRows));
 
-        run = new FreeRun(this);
+        run = new FreeRun(this, splitRows);
+	}
+	
+	public void updateSplitList(){
+		((BaseAdapter)splitTable.getAdapter()).notifyDataSetChanged();
 	}
 
     @Override
