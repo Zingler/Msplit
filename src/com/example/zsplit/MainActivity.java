@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Timer;
 
+import com.example.zsplit.edit.EditSplitActivity;
 import com.example.zsplit.urnmodel.Urn;
 import com.example.zsplit.urnmodel.UrnUtil;
 
@@ -12,6 +13,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -35,6 +37,7 @@ public class MainActivity extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        
         mainTimer = (TextView)findViewById(R.id.maintimer);
         splitListUtil = new UrnUtil(this);
         
@@ -81,6 +84,11 @@ public class MainActivity extends Activity {
         	return true;
         case R.id.free_run:
         	changeToFreeRun();
+        	return true;
+        case R.id.edit_urn:
+        	Intent i = new Intent(this, EditSplitActivity.class);
+        	startActivity(i);
+        	overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
         	return true;
         default:
             return super.onOptionsItemSelected(item);

@@ -5,4 +5,6 @@
         android:title="Load"/>
     <item android:id="@+id/free_run"
         android:title="Free run"/>
+    <item android:id="@+id/edit_urn"
+        android:title="Edit run"/>
 </menu>
