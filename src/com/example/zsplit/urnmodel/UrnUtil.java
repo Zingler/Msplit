@@ -17,6 +17,7 @@ public class UrnUtil {
 	
 	public Urn sampleUrn(){
 		Urn result = new Urn();
+		result.setFilename("Default Urn");
 		result.add(new UrnSplit("Escape", 2966));
 		result.add(new UrnSplit("Kakriko", 3685));
 		result.add(new UrnSplit("Bottle", 4971));
@@ -29,7 +30,7 @@ public class UrnUtil {
 	}
 	
 	public void save(Urn list) throws IOException{
-		FileOutputStream fos = context.openFileOutput(list.filename, Context.MODE_PRIVATE);
+		FileOutputStream fos = context.openFileOutput(list.getFilename(), Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(list);
 		oos.close();

@@ -82,11 +82,11 @@ public class Run {
 
 	public Urn createUrnFromRun(){
 		Urn newUrn = new Urn();
-		newUrn.filename = urn.filename;
+		newUrn.setFilename(urn.getFilename());
 		for(int i=0; i<runSplits.size(); i++){
 			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit().getName(), splits.get(i).getUrnSplit().getTime()));
 		}
-		for(int i=runSplits.size(); i<urn.size(); i++){
+		for(int i=runSplits.size(); i<urn.getSplits().size(); i++){
 			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit()));
 		}
 		return newUrn;

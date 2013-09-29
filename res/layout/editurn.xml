@@ -30,7 +30,8 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <ListView
+        android:id="@+id/editsplitlistview"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_above="@+id/buttonlayout"
@@ -39,21 +40,6 @@
         android:layout_alignParentTop="true"
         android:orientation="vertical" >
 
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/editsplit" />
-
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/editsplit" />
-
-        <include
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            layout="@layout/editsplit" />
-
-    </LinearLayout>
+    </ListView>
 
 </RelativeLayout>

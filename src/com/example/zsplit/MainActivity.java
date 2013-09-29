@@ -12,18 +12,14 @@ import com.example.zsplit.urnmodel.UrnUtil;
 import android.os.Bundle;
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -90,8 +86,9 @@ public class MainActivity extends Activity {
         	changeToFreeRun();
         	return true;
         case R.id.edit_urn:
-        	Intent i = new Intent(this, EditSplitActivity.class);
-        	startActivity(i);
+        	Intent intent = new Intent(this, EditSplitActivity.class);
+        	intent.putExtra(EditSplitActivity.URN_TO_EDIT, urn);
+        	startActivity(intent);
         	overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
         	return true;
         default:
@@ -121,8 +118,8 @@ public class MainActivity extends Activity {
     	builder.setTitle("Save as...");
     	View v = this.getLayoutInflater().inflate(R.layout.savedialog, null);
     	final EditText filename = ((EditText)v.findViewById(R.id.save_filename));
-    	if(urn.filename!=null){
-    		filename.setText(urn.filename);
+    	if(urn.getFilename()!=null){
+    		filename.setText(urn.getFilename());
     	}
     	builder.setView(v);
     	builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
@@ -131,7 +128,7 @@ public class MainActivity extends Activity {
 				String newName = filename.getText().toString();
 				try{
 					Urn newUrn = run.createUrnFromRun();
-					newUrn.filename = newName;
+					newUrn.setFilename(newName);
 					splitListUtil.save(newUrn);
 					changeToRun(newUrn);
 				} catch(IOException e){

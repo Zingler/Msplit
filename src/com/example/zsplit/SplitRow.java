@@ -47,7 +47,7 @@ public class SplitRow {
 	
 	public static List<SplitRow> createSplitRows(Urn urn){
 		List<SplitRow> rows = new ArrayList<SplitRow>();
-		for(UrnSplit s: urn){
+		for(UrnSplit s: urn.getSplits()){
 			rows.add(new SplitRow(s, null));
 		}
 		return rows;
