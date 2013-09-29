@@ -4,18 +4,17 @@
     android:layout_height="match_parent" >
 
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/editdialogname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:ems="10"
         android:hint="Name" />
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/editText1"
+        android:layout_below="@+id/editdialogname"
         android:layout_centerHorizontal="true" >
 
         <LinearLayout
@@ -24,7 +23,7 @@
             android:orientation="vertical" >
 
             <com.example.zsplit.util.MyNumberPicker
-                android:id="@+id/numberPicker1"
+                android:id="@+id/editdialoghour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -47,7 +46,7 @@
             android:orientation="vertical" >
 
             <com.example.zsplit.util.MyNumberPicker
-                android:id="@+id/numberPicker1"
+                android:id="@+id/editdialogminute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -70,7 +69,7 @@
             android:orientation="vertical" >
 
             <com.example.zsplit.util.MyNumberPicker
-                android:id="@+id/numberPicker1"
+                android:id="@+id/editdialogsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -93,7 +92,7 @@
             android:orientation="vertical" >
 
             <com.example.zsplit.util.MyNumberPicker
-                android:id="@+id/numberPicker1"
+                android:id="@+id/editdialogtenthsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"

@@ -3,7 +3,9 @@ package com.example.zsplit.edit;
 import java.io.IOException;
 
 import com.example.zsplit.R;
+import com.example.zsplit.util.Time;
 import com.example.zsplit.urnmodel.Urn;
+import com.example.zsplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,8 +15,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Adapter;
 import android.widget.AdapterView;
+import android.widget.BaseAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
 
@@ -45,24 +49,41 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		Toast.makeText(this, "Something was touched", Toast.LENGTH_SHORT).show();
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle("Edit Split");
-    	View v = this.getLayoutInflater().inflate(R.layout.editsplitdialog, null);
+    	
+		View v = this.getLayoutInflater().inflate(R.layout.editsplitdialog, null);
+    	final UrnSplit split = (UrnSplit)parent.getItemAtPosition(position);
+		
+		final EditText name = (EditText)v.findViewById(R.id.editdialogname);
+		View v2 = v.findViewById(R.id.editdialoghour);
+    	final NumberPicker hour = (NumberPicker)v.findViewById(R.id.editdialoghour);
+    	final NumberPicker minute = (NumberPicker)v.findViewById(R.id.editdialogminute);
+    	final NumberPicker second = (NumberPicker)v.findViewById(R.id.editdialogsecond);
+    	final NumberPicker tenthsecond = (NumberPicker)v.findViewById(R.id.editdialogtenthsecond);
+    	
+    	name.setText(split.getName());
+    	Time time = new Time(split.getTime());
+    	hour.setValue(time.hour);
+    	minute.setValue(time.minute);
+    	second.setValue(time.second);
+    	tenthsecond.setValue(time.tenthsecond);
+    	
     	builder.setView(v);
     	builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
-				/*String newName = filename.getText().toString();
-				try{
-					Urn newUrn = run.createUrnFromRun();
-					newUrn.setFilename(newName);
-					splitListUtil.save(newUrn);
-					changeToRun(newUrn);
-				} catch(IOException e){
-					Toast.makeText(getApplicationContext(), "Could not save the file", Toast.LENGTH_SHORT).show();
-				}*/
+				Time newTime = new Time(hour.getValue(), minute.getValue(), second.getValue(), tenthsecond.getValue());
+				String newName = name.getText().toString();
+				split.setName(newName);
+				split.setTime(newTime.getTimeAsInt());
+				updateSplitList();
 			}
 		});
     	builder.setNegativeButton("Cancel", null);
     	builder.create().show();
+	}
+	
+	public void updateSplitList(){
+		((BaseAdapter)editSplitListView.getAdapter()).notifyDataSetChanged();
 	}
 	
 	
