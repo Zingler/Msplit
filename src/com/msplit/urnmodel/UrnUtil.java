@@ -30,6 +30,7 @@ public class UrnUtil {
 	}
 	
 	public void save(Urn list) throws IOException{
+		list.sort();
 		FileOutputStream fos = context.openFileOutput(list.getFilename(), Context.MODE_PRIVATE);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
 		oos.writeObject(list);
@@ -41,6 +42,7 @@ public class UrnUtil {
 		ObjectInputStream oos = new ObjectInputStream(fos);
 		Urn list = (Urn)oos.readObject();
 		oos.close();
+		list.sort();
 		return list;
 	}
 	

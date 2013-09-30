@@ -24,15 +24,16 @@ public class Run {
 	private Urn urn;
 	protected ArrayList<RunSplit> runSplits;
 
-	public Run(){}
-	
-	public Run(Activity activity, Urn urn, List<SplitRow> splitsview){
-		this.activity = (MainActivity)activity;
+	public Run() {
+	}
+
+	public Run(Activity activity, Urn urn, List<SplitRow> splitsview) {
+		this.activity = (MainActivity) activity;
 		this.urn = urn;
 		this.splits = splitsview;
-		maintimer = (TextView)activity.findViewById(R.id.maintimer);
+		maintimer = (TextView) activity.findViewById(R.id.maintimer);
 	}
-	
+
 	public void start() {
 		if (!isRunning) {
 			stopwatch = new Timer();
@@ -43,20 +44,22 @@ public class Run {
 			isRunning = false;
 		}
 	}
-	
+
 	public void stop() {
-		stopwatch.cancel();
+		if (stopwatch != null) {
+			stopwatch.cancel();
+		}
 		isRunning = false;
 	}
 
 	public void reset() {
-		if(stopwatch!=null){
+		if (stopwatch != null) {
 			stopwatch.cancel();
 		}
 		isRunning = false;
 		time = 0;
 		splitIndex = 0;
-		for(SplitRow s : splits){
+		for (SplitRow s : splits) {
 			s.reset();
 		}
 		activity.updateSplitList();
@@ -67,33 +70,32 @@ public class Run {
 			}
 		});
 	}
-	
-	public void split(){
-		if(splitIndex >= splits.size()){
+
+	public void split() {
+		if (splitIndex >= splits.size()) {
 			return;
 		}
 		SplitRow s = splits.get(splitIndex);
 		s.setRunSplit(new RunSplit(time));
 		splitIndex++;
-		if(splitIndex == splits.size()){
+		if (splitIndex == splits.size()) {
 			stop();
 		}
 		activity.updateSplitList();
 	}
 
-	public Urn createUrnFromRun(){
+	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		newUrn.setFilename(urn.getFilename());
-		for(int i=0; i<runSplits.size(); i++){
+		for (int i = 0; i < runSplits.size(); i++) {
 			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit().getName(), splits.get(i).getUrnSplit().getTime()));
 		}
-		for(int i=runSplits.size(); i<urn.getSplits().size(); i++){
+		for (int i = runSplits.size(); i < urn.getSplits().size(); i++) {
 			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit()));
 		}
 		return newUrn;
 	}
-			
-	
+
 	class Ticker extends TimerTask {
 		Run urn;
 

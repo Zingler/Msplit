@@ -2,6 +2,8 @@ package com.msplit.urnmodel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 import android.os.Parcel;
@@ -41,5 +43,9 @@ public class Urn implements Serializable{
 	}
 	public void add(UrnSplit u){
 		splits.add(u);
+		sort();
+	}
+	public void sort(){
+		Collections.sort(splits);
 	}
 }

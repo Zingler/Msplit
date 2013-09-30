@@ -21,7 +21,7 @@ public class Time{
 		this.tenthsecond = tenthsecond;
 	}
 	
-	public int getTimeAsInt(){
+	public int toInt(){
 		return ((hour*60+minute)*60+second)*10+tenthsecond;
 	}
 }
