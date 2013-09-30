@@ -1,21 +1,17 @@
-package com.example.zsplit.edit;
+package com.msplit.edit;
 
 import java.util.List;
 
-import com.example.zsplit.R;
-import com.example.zsplit.Util;
-import com.example.zsplit.urnmodel.UrnSplit;
+import com.msplit.R;
+import com.msplit.Util;
+import com.msplit.urnmodel.UrnSplit;
 
-import android.app.Activity;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 	private int resource;

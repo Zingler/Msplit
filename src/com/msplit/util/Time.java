@@ -1,4 +1,4 @@
-package com.example.zsplit.util;
+package com.msplit.util;
 
 public class Time{
 	public int tenthsecond, second, minute, hour;

@@ -1,13 +1,14 @@
-package com.example.zsplit;
+package com.msplit;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 
-import com.example.zsplit.edit.EditSplitActivity;
-import com.example.zsplit.urnmodel.Urn;
-import com.example.zsplit.urnmodel.UrnUtil;
+import com.msplit.R;
+import com.msplit.edit.EditSplitActivity;
+import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnUtil;
 
 import android.os.Bundle;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.example.zsplit.urnmodel;
+package com.msplit.urnmodel;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

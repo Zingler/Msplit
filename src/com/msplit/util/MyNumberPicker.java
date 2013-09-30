@@ -1,4 +1,4 @@
-package com.example.zsplit.util;
+package com.msplit.util;
 
 import android.content.Context;
 import android.util.AttributeSet;

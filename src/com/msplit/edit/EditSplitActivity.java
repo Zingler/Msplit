@@ -1,11 +1,12 @@
-package com.example.zsplit.edit;
+package com.msplit.edit;
 
 import java.io.IOException;
 
-import com.example.zsplit.R;
-import com.example.zsplit.util.Time;
-import com.example.zsplit.urnmodel.Urn;
-import com.example.zsplit.urnmodel.UrnSplit;
+import com.msplit.R;
+import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnSplit;
+import com.msplit.urnmodel.UrnUtil;
+import com.msplit.util.Time;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -13,7 +14,6 @@ import android.app.AlertDialog.Builder;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
@@ -26,18 +26,31 @@ import android.widget.AdapterView.OnItemClickListener;
 public class EditSplitActivity extends Activity implements OnItemClickListener {
 	public static final String URN_TO_EDIT = "URN_TO_EDIT";
 	private ListView editSplitListView;
-
+	private UrnUtil urnUtil;
+	private Urn urn;
+	
 	public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editurn);
         editSplitListView = (ListView)findViewById(R.id.editsplitlistview);
-        Urn urn = (Urn)getIntent().getExtras().get(URN_TO_EDIT);
+        urn = (Urn)getIntent().getExtras().get(URN_TO_EDIT);
         EditSplitAdapter adapter = new EditSplitAdapter(this, urn.getSplits());
         editSplitListView.setAdapter(adapter);
         editSplitListView.setOnItemClickListener(this);
+        urnUtil = new UrnUtil(this);
     }
 	
+	public void addSplit(View v){
+		
+	}
+	
 	public void saveClicked(View v){
+		try {
+			urnUtil.save(urn);
+		} catch (IOException e) {
+			Toast.makeText(this, "Was unable to save "+urn.getFilename(), Toast.LENGTH_LONG).show();
+			return;
+		}
 		finish();
 	}
 	public void cancelClicked(View v){
@@ -46,7 +59,6 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 	
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Toast.makeText(this, "Something was touched", Toast.LENGTH_SHORT).show();
 		AlertDialog.Builder builder = new Builder(this);
 		builder.setTitle("Edit Split");
     	
@@ -54,7 +66,6 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
     	final UrnSplit split = (UrnSplit)parent.getItemAtPosition(position);
 		
 		final EditText name = (EditText)v.findViewById(R.id.editdialogname);
-		View v2 = v.findViewById(R.id.editdialoghour);
     	final NumberPicker hour = (NumberPicker)v.findViewById(R.id.editdialoghour);
     	final NumberPicker minute = (NumberPicker)v.findViewById(R.id.editdialogminute);
     	final NumberPicker second = (NumberPicker)v.findViewById(R.id.editdialogsecond);

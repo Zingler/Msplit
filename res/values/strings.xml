@@ -1,8 +1,5 @@
 <resources>
-
-    <string name="app_name">Zsplit</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Msplit</string>
     <string name="menu_settings">Settings</string>
-    <string name="title_activity_main">ZSplit</string>
-
+    <string name="title_activity_main">Msplit</string>
 </resources>

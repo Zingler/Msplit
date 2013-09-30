@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.zsplit"
+    package="com.msplit"
     android:versionCode="1"
     android:versionName="1.0" >
 
@@ -21,7 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".edit.EditSplitActivity" android:screenOrientation="portrait"></activity>
+        <activity android:name="com.msplit.edit.EditSplitActivity" android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

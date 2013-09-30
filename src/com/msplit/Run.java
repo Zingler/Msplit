@@ -1,17 +1,15 @@
-package com.example.zsplit;
+package com.msplit;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import com.example.zsplit.urnmodel.Urn;
-import com.example.zsplit.urnmodel.UrnSplit;
+import com.msplit.R;
+import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
-import android.util.AttributeSet;
 import android.widget.TextView;
 
 public class Run {
@@ -71,12 +69,15 @@ public class Run {
 	}
 	
 	public void split(){
-		SplitRow s = splits.get(splitIndex);
-		splitIndex++;
 		if(splitIndex >= splits.size()){
+			return;
+		}
+		SplitRow s = splits.get(splitIndex);
+		s.setRunSplit(new RunSplit(time));
+		splitIndex++;
+		if(splitIndex == splits.size()){
 			stop();
 		}
-		s.setRunSplit(new RunSplit(time));
 		activity.updateSplitList();
 	}
 

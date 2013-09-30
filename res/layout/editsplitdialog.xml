@@ -22,7 +22,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical" >
 
-            <com.example.zsplit.util.MyNumberPicker
+            <com.msplit.util.MyNumberPicker
                 android:id="@+id/editdialoghour"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -45,7 +45,7 @@
             android:layout_below="@+id/editText1"
             android:orientation="vertical" >
 
-            <com.example.zsplit.util.MyNumberPicker
+            <com.msplit.util.MyNumberPicker
                 android:id="@+id/editdialogminute"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
             android:layout_below="@+id/editText1"
             android:orientation="vertical" >
 
-            <com.example.zsplit.util.MyNumberPicker
+            <com.msplit.util.MyNumberPicker
                 android:id="@+id/editdialogsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -91,7 +91,7 @@
             android:layout_below="@+id/editText1"
             android:orientation="vertical" >
 
-            <com.example.zsplit.util.MyNumberPicker
+            <com.msplit.util.MyNumberPicker
                 android:id="@+id/editdialogtenthsecond"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

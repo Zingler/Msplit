@@ -1,4 +1,4 @@
-package com.example.zsplit;
+package com.msplit;
 
 public class RunSplit {
 	public int time;

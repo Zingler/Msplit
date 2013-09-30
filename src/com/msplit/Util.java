@@ -1,4 +1,4 @@
-package com.example.zsplit;
+package com.msplit;
 
 public class Util {
 	public static String formatTimerString(int time) {

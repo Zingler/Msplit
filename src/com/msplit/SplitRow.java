@@ -1,16 +1,10 @@
-package com.example.zsplit;
+package com.msplit;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.example.zsplit.urnmodel.Urn;
-import com.example.zsplit.urnmodel.UrnSplit;
-
-import android.content.Context;
-import android.graphics.Color;
-import android.util.AttributeSet;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
+import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnSplit;
 
 public class SplitRow {
 	private UrnSplit urnSplit;
