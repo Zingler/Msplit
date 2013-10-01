@@ -1,24 +1,33 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
     android:layout_height="40dp" >
 
-    <TextView
-        android:id="@+id/name"
+     <Button
+        android:id="@+id/editsplitremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_centerVertical="true"
-        android:text="Name of the Split"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:focusable="false"
+        android:text="Remove" />
 
     <TextView
-        android:id="@+id/time"
+        android:id="@+id/edittime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
         android:text="13:34.1"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/editname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/editsplitremove"
+        android:text="Name of the Split"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
     
 </RelativeLayout>
