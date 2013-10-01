@@ -87,11 +87,14 @@ public class Run {
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		newUrn.setFilename(urn.getFilename());
-		for (int i = 0; i < runSplits.size(); i++) {
-			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit().getName(), splits.get(i).getUrnSplit().getTime()));
-		}
-		for (int i = runSplits.size(); i < urn.getSplits().size(); i++) {
-			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit()));
+		for(int i=0; i < splits.size(); i++){
+			int time;
+			if(splits.get(i).getRunSplit()!=null){
+				time = splits.get(i).getRunSplit().getTime();
+			} else {
+				time = splits.get(i).getUrnSplit().getTime();
+			}
+			newUrn.add(new UrnSplit(splits.get(i).getUrnSplit().getName(), time));
 		}
 		return newUrn;
 	}

@@ -2,12 +2,8 @@ package com.msplit.urnmodel;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
-
-import android.os.Parcel;
-import android.os.Parcelable;
 
 public class Urn implements Serializable{
 	private static final long serialVersionUID = 1L;

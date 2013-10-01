@@ -1,18 +1,32 @@
 package com.msplit.urnmodel;
 
+import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import android.content.Context;
+import android.util.Log;
 
 public class UrnUtil {
+	private final String SPLIT_DIR = "splits";
 	private Context context;
+	private Gson gson;
+	private File splitDir;
 
+	
 	public UrnUtil(Context c){
 		this.context = c;
+		this.gson = new Gson();
+		splitDir = context.getDir(SPLIT_DIR, Context.MODE_PRIVATE);
+		Log.d("File", splitDir.toString());
 	}
 	
 	public Urn sampleUrn(){
@@ -31,22 +45,28 @@ public class UrnUtil {
 	
 	public void save(Urn list) throws IOException{
 		list.sort();
-		FileOutputStream fos = context.openFileOutput(list.getFilename(), Context.MODE_PRIVATE);
+		String output = gson.toJson(list);
+		File f = new File(splitDir+"/"+list.getFilename()); 
+		FileOutputStream fos = new FileOutputStream(f);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		oos.writeObject(list);
+		Log.d("save",f.toString());
+		oos.writeObject(output);
 		oos.close();
 	}
 	
 	public Urn load(String name) throws IOException, ClassNotFoundException{
-		FileInputStream fos = context.openFileInput(name);
+		File f = new File(splitDir+"/"+name);
+		FileInputStream fos = new FileInputStream(f);
 		ObjectInputStream oos = new ObjectInputStream(fos);
-		Urn list = (Urn)oos.readObject();
+		String result = (String)oos.readObject();
 		oos.close();
+		Urn list = gson.fromJson(result, Urn.class);
+		Log.d("load", f.toString());
 		list.sort();
 		return list;
 	}
 	
 	public String[] listUrns(){
-		return context.fileList();
+		return splitDir.list();
 	}
 }

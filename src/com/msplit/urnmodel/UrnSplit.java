@@ -2,7 +2,7 @@ package com.msplit.urnmodel;
 
 import java.io.Serializable;
 
-public class UrnSplit implements Serializable, Comparable<UrnSplit>{
+public class UrnSplit implements Comparable<UrnSplit>, Serializable{
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int time;
@@ -37,8 +37,5 @@ public class UrnSplit implements Serializable, Comparable<UrnSplit>{
 	public int compareTo(UrnSplit another) {
 		return this.time - another.time;
 	}
-	
-	
-	
 	
 }
