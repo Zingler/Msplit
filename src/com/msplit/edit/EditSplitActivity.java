@@ -30,7 +30,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		EditSplitAdapter adapter = new EditSplitAdapter(this, urn.getSplits());
 		editSplitListView.setAdapter(adapter);
 		editSplitListView.setOnItemClickListener(this);
-		urnUtil = new UrnUtil(this);
+		urnUtil = UrnUtil.getInstance(this);
 	}
 
 	public void addSplit(View v) {

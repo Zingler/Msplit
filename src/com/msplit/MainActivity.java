@@ -40,7 +40,7 @@ public class MainActivity extends Activity {
         splitTable = (ListView)findViewById(R.id.splittable);
         
         mainTimer = (TextView)findViewById(R.id.maintimer);
-        splitListUtil = new UrnUtil(this);
+        splitListUtil = UrnUtil.getInstance(this);
         
         urn = splitListUtil.sampleUrn();
         changeToRun(urn);
