@@ -10,6 +10,7 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:onClick="newSplit"
         android:text="Create New Split" />
 
     <Button
@@ -19,10 +20,11 @@
         android:layout_above="@+id/createnewsplit"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
+        android:onClick="loadSplit"
         android:text="Load Existing Split" />
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/recentsplitslistview"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_above="@+id/loadexistingsplit"

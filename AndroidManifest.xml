@@ -26,7 +26,7 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".HomePage"
+            android:name=".homepage.HomePage"
             android:label="@string/title_activity_home_page" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

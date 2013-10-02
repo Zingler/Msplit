@@ -49,7 +49,9 @@
         <ListView
             android:id="@+id/splittable"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="fill_parent"
+            android:layout_above="@+id/maintimer"
+            android:layout_alignParentTop="true"
             android:orientation="vertical"
             android:stretchColumns="1" >
             
