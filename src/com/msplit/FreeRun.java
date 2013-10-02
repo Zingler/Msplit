@@ -1,29 +1,32 @@
 package com.msplit;
 
-
 import java.util.List;
 
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
+import android.widget.TextView;
 
-public class FreeRun extends Run{
+public class FreeRun extends Run {
 
-	private MainActivity mainActivity;
-
-	public FreeRun(Activity activity, List<SplitRow> splitRows){
+	public FreeRun(Activity activity, List<SplitRow> splitRows) {
 		this.splits = splitRows;
-		mainActivity = (MainActivity)activity;
+		this.activity = (MainActivity) activity;
+		maintimer = (TextView) activity.findViewById(R.id.maintimer);
 	}
-	
+
 	public void stop() {
-		stopwatch.cancel();
+		if (stopwatch != null) {
+			stopwatch.cancel();
+		}
 		isRunning = false;
 	}
 
 	public void reset() {
-		stopwatch.cancel();
+		if (stopwatch != null) {
+			stopwatch.cancel();
+		}
 		isRunning = false;
 		time = 0;
 		splitIndex = 0;
@@ -35,20 +38,20 @@ public class FreeRun extends Run{
 			}
 		});
 	}
-	
-	public void split(){
-		splits.add(new SplitRow(null, new RunSplit(time)));
+
+	public void split() {
+		splits.add(new SplitRow(new UrnSplit(null,time), null));
 		splitIndex++;
+		activity.updateSplitList();
 	}
-	
+
 	@Override
-	public Urn createUrnFromRun(){
+	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
-		for(SplitRow r : splits){
+		for (SplitRow r : splits) {
 			newUrn.add(new UrnSplit(null, r.getRunSplit().getTime()));
 		}
 		return newUrn;
 	}
 
-	
 }
