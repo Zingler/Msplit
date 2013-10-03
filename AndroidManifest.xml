@@ -12,6 +12,15 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
+            android:name=".homepage.HomePage"
+            android:label="@string/title_activity_home_page" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".MainActivity"
             android:label="@string/title_activity_main"
             android:screenOrientation="portrait" >
@@ -24,15 +33,6 @@
         <activity
             android:name="com.msplit.edit.EditSplitActivity"
             android:screenOrientation="portrait" >
-        </activity>
-        <activity
-            android:name=".homepage.HomePage"
-            android:label="@string/title_activity_home_page" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

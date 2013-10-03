@@ -49,7 +49,7 @@ public class FreeRun extends Run {
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		for (SplitRow r : splits) {
-			newUrn.add(new UrnSplit(null, r.getRunSplit().getTime()));
+			newUrn.add(new UrnSplit(null, r.getUrnSplit().getTime()));
 		}
 		return newUrn;
 	}

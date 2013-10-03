@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,7 +26,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends Activity {
-
+	public final static String URN_NAME_PARAM = "com.msplit.urnNameParam";
     public int counter = 0;
     public TextView mainTimer;
     public Timer stopwatch;
@@ -42,8 +43,18 @@ public class MainActivity extends Activity {
         mainTimer = (TextView)findViewById(R.id.maintimer);
         splitListUtil = UrnUtil.getInstance(this);
         
-        urn = splitListUtil.sampleUrn();
-        changeToRun(urn);
+        String urnString = (String)getIntent().getExtras().get(URN_NAME_PARAM);
+        if(urnString!=null) {
+        	try {
+				urn = splitListUtil.load(urnString);
+				changeToRun(urn);
+			} catch (Exception e) {
+				Log.e("load", "could not load urn "+urnString);
+				changeToFreeRun();
+			}
+        } else {
+        	changeToFreeRun();
+        }
     }
 
 	private void changeToRun(Urn newUrn) {
@@ -119,7 +130,7 @@ public class MainActivity extends Activity {
     	builder.setTitle("Save as...");
     	View v = this.getLayoutInflater().inflate(R.layout.savedialog, null);
     	final EditText filename = ((EditText)v.findViewById(R.id.save_filename));
-    	if(urn.getFilename()!=null){
+    	if(urn!=null && urn.getFilename()!=null){
     		filename.setText(urn.getFilename());
     	}
     	builder.setView(v);
@@ -161,4 +172,10 @@ public class MainActivity extends Activity {
 		});
 		return builder.create();
 	}
+    
+    @Override
+    public void finish(){
+    	super.finish();
+    	overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+    }
 }
