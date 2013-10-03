@@ -1,5 +1,6 @@
 package com.msplit.homepage;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.msplit.MainActivity;
@@ -30,7 +31,10 @@ public class HomePage extends ListActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_page);
         List<String> recentSplits = UrnUtil.getInstance(this).getRecentSplits().list();
-        List<String> sublist = recentSplits.subList(0, recentSplits.size() < 5 ? recentSplits.size() : 5);
+        List<String> sublist = new ArrayList<String>();
+        for(int i=0; i<recentSplits.size() && i < 5; i++){
+        	sublist.add(recentSplits.get(i));
+        }
         setListAdapter(new RecentSplitAdapter(this, sublist));
         urnUtil = UrnUtil.getInstance(this);
     }
