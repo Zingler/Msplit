@@ -11,6 +11,7 @@ import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnUtil;
 
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,11 +28,13 @@ import android.widget.Toast;
 
 public class MainActivity extends Activity {
 	public final static String URN_NAME_PARAM = "com.msplit.urnNameParam";
-    public int counter = 0;
+    public final static long DOUBLE_SPLIT_PREVENT_TIME_MILLIS = 500;
+	public int counter = 0;
     public TextView mainTimer;
     public Timer stopwatch;
 	public ListView splitTable;
 	public UrnUtil splitListUtil;
+	public Vibrator vibrator;
 	public Run run;
 	public Urn urn;
 	@Override
@@ -42,6 +45,7 @@ public class MainActivity extends Activity {
         
         mainTimer = (TextView)findViewById(R.id.maintimer);
         splitListUtil = UrnUtil.getInstance(this);
+        vibrator = (Vibrator)getSystemService(VIBRATOR_SERVICE);
         
         String urnString = (String)getIntent().getExtras().get(URN_NAME_PARAM);
         if(urnString!=null) {
@@ -81,7 +85,7 @@ public class MainActivity extends Activity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_main, menu);
-        return true;
+        return super.onCreateOptionsMenu(menu);
     }
     
     @Override
@@ -121,8 +125,16 @@ public class MainActivity extends Activity {
         run.reset();
         ((TextView)findViewById(R.id.start)).setText("Start");
     }
+    
+    long lastSplitTime = 0;
     public void splitButtonClicked(View view) {
-        run.split();
+        if(System.currentTimeMillis() - lastSplitTime > DOUBLE_SPLIT_PREVENT_TIME_MILLIS){
+        	lastSplitTime = System.currentTimeMillis();
+        	if(run.split()){
+        		vibrator.vibrate(50);
+        	}
+        	
+        }
     }
     
     public AlertDialog createSaveDialog(){

@@ -71,9 +71,9 @@ public class Run {
 		});
 	}
 
-	public void split() {
+	public boolean split() {
 		if (splitIndex >= splits.size()) {
-			return;
+			return false;
 		}
 		SplitRow s = splits.get(splitIndex);
 		s.setRunSplit(new RunSplit(time));
@@ -82,6 +82,7 @@ public class Run {
 			stop();
 		}
 		activity.updateSplitList();
+		return true;
 	}
 
 	public Urn createUrnFromRun() {

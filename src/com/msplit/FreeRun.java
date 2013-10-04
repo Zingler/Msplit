@@ -39,10 +39,11 @@ public class FreeRun extends Run {
 		});
 	}
 
-	public void split() {
+	public boolean split() {
 		splits.add(new SplitRow(new UrnSplit(null,time), null));
 		splitIndex++;
 		activity.updateSplitList();
+		return true;
 	}
 
 	@Override

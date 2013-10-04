@@ -12,21 +12,13 @@
         android:layout_centerHorizontal="true" >
 
         <Button
-            android:id="@+id/split"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:onClick="splitButtonClicked"
-            android:layout_weight="1"
-            android:text="Split" />
-
-        <Button
             android:id="@+id/start"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:onClick="startButtonClicked"
             android:text="Start" />
-        
+
         <Button
             android:id="@+id/reset"
             android:layout_width="fill_parent"
@@ -35,7 +27,7 @@
             android:onClick="resetButtonClicked"
             android:text="Reset" />
     </LinearLayout>
-    
+
     <TextView
         android:id="@+id/maintimer"
         android:layout_width="wrap_content"
@@ -45,18 +37,25 @@
         android:text="00:00:00.0"
         android:textSize="35dp"
         tools:context=".MainActivity" />
-
-        <ListView
-            android:id="@+id/splittable"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:layout_above="@+id/maintimer"
-            android:layout_alignParentTop="true"
-            android:orientation="vertical"
-            android:stretchColumns="1" >
-            
-        </ListView>
     
+    <ListView
+        android:id="@+id/splittable"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/maintimer"
+        android:layout_alignParentTop="true"
+        android:orientation="vertical"
+        android:stretchColumns="1" >
+    </ListView>
     
-
+    <com.msplit.SplitOverlayView
+        android:id="@+id/splitoverlay"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_above="@+id/maintimer"
+        android:layout_alignParentTop="true"
+        android:focusable="true"
+        android:focusableInTouchMode="true" >
+    </com.msplit.SplitOverlayView>
+    
 </RelativeLayout>
