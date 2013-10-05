@@ -34,6 +34,7 @@
         </activity>
         <activity
             android:name="com.msplit.edit.EditSplitActivity"
+            android:windowSoftInputMode="stateHidden"
             android:screenOrientation="portrait" >
         </activity>
     </application>

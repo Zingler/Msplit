@@ -37,6 +37,7 @@ public class MainActivity extends Activity {
 	public Vibrator vibrator;
 	public Run run;
 	public Urn urn;
+	public boolean inFreeRun;
 	@Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,12 +64,13 @@ public class MainActivity extends Activity {
 
 	private void changeToRun(Urn newUrn) {
 		this.urn = newUrn;
-        
-        List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
+		this.setTitle(urn.getFilename());
+		List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
         splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 
         run = new Run(this, urn, splitRows);
         run.reset();
+        inFreeRun = false;
 	}
 	
 	private void changeToFreeRun() {
@@ -76,6 +78,7 @@ public class MainActivity extends Activity {
 		splitTable.setAdapter(new SplitRowAdapter(this,splitRows));
 
         run = new FreeRun(this, splitRows);
+        inFreeRun = true;
 	}
 	
 	public void updateSplitList(){
@@ -103,7 +106,13 @@ public class MainActivity extends Activity {
         	return true;
         case R.id.edit_urn:
         	Intent intent = new Intent(this, EditSplitActivity.class);
-        	intent.putExtra(EditSplitActivity.URN_TO_EDIT, urn);
+        	Urn u;
+        	if(inFreeRun){
+        		u = run.createUrnFromRun();
+        	} else {
+        		u = urn;
+        	}
+        	intent.putExtra(EditSplitActivity.URN_TO_EDIT, u);
         	startActivity(intent);
         	overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
         	return true;

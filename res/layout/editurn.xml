@@ -38,6 +38,14 @@
         android:onClick="addSplit"
         android:text="Add split" />
     
+ 	<EditText
+ 	    android:id="@+id/edittitle"
+ 	    android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:hint="Title"
+ 	    android:layout_alignParentTop="true"
+ 	    />
+    
     <ListView
         android:id="@+id/editsplitlistview"
         android:descendantFocusability="beforeDescendants" 
@@ -46,7 +54,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/edittitle"
         android:layout_above="@id/addsplit"
         android:orientation="vertical" >
 

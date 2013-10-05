@@ -117,4 +117,11 @@ public class UrnUtil {
 			Log.e("Load", "Was not able to save recent splits : " + e.getMessage());
 		}
 	}
+
+	public void delete(String name) {
+		File f = new File(splitDir + "/" + name);
+		f.delete();
+		getRecentSplits().remove(name);
+		saveRecentSplits();
+	}
 }

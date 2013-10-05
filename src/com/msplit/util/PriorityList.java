@@ -18,4 +18,8 @@ public class PriorityList<T> {
 	public List<T> list(){
 		return list;
 	}
+
+	public void remove(T item) {
+		list.remove(item);
+	}
 }

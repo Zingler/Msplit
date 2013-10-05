@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
 import android.widget.AdapterView.OnItemClickListener;
@@ -21,12 +22,19 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 	private ListView editSplitListView;
 	private UrnUtil urnUtil;
 	private Urn urn;
+	private String oldFileName;
+	private EditText titleText;
 
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.editurn);
 		editSplitListView = (ListView) findViewById(R.id.editsplitlistview);
 		urn = (Urn) getIntent().getExtras().get(URN_TO_EDIT);
+		titleText = (EditText)findViewById(R.id.edittitle);
+		if(urn.getFilename()!=null){
+			oldFileName = urn.getFilename();
+			titleText.setText(urn.getFilename());
+		}
 		EditSplitAdapter adapter = new EditSplitAdapter(this, urn.getSplits());
 		editSplitListView.setAdapter(adapter);
 		editSplitListView.setOnItemClickListener(this);
@@ -50,8 +58,19 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 	}
 
 	public void saveClicked(View v) {
-		try {
+		if(titleText.getText().toString().equals("")){
+			Toast.makeText(this, "You must have a have a Title", Toast.LENGTH_LONG).show();
+			return;
+		}
+		
+		try {		
+			urn.setFilename(titleText.getText().toString());
 			urnUtil.save(urn);
+			
+			//If the old and new file names do not match, delete the old one
+			if(oldFileName!=urn.getFilename()){
+				urnUtil.delete(oldFileName);
+			}
 		} catch (IOException e) {
 			Toast.makeText(this, "Was unable to save " + urn.getFilename(), Toast.LENGTH_LONG).show();
 			return;
