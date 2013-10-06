@@ -5,17 +5,17 @@ import java.util.List;
 
 public class PriorityList<T> {
 	ArrayList<T> list;
-	
-	public PriorityList(){
+
+	public PriorityList() {
 		list = new ArrayList<T>();
 	}
-	
-	public void putTop(T item){
+
+	public void putTop(T item) {
 		list.remove(item);
 		list.add(0, item);
 	}
-	
-	public List<T> list(){
+
+	public List<T> list() {
 		return list;
 	}
 

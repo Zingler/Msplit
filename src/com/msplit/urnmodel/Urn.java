@@ -5,15 +5,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class Urn implements Serializable{
+public class Urn implements Serializable {
 	private static final long serialVersionUID = 1L;
-	private String filename="";
+	private String filename = "";
 	private List<UrnSplit> splits;
 
 	public Urn() {
 		splits = new ArrayList<UrnSplit>();
 	}
-	
+
 	public Urn(List<UrnSplit> splits) {
 		super();
 		this.splits = splits;
@@ -28,20 +28,25 @@ public class Urn implements Serializable{
 	public String getFilename() {
 		return filename;
 	}
+
 	public void setFilename(String filename) {
 		this.filename = filename;
 	}
+
 	public List<UrnSplit> getSplits() {
 		return splits;
 	}
+
 	public void setSplits(List<UrnSplit> splits) {
 		this.splits = splits;
 	}
-	public void add(UrnSplit u){
+
+	public void add(UrnSplit u) {
 		splits.add(u);
 		sort();
 	}
-	public void sort(){
+
+	public void sort() {
 		Collections.sort(splits);
 	}
 }

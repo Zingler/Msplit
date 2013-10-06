@@ -17,7 +17,7 @@ public class Util {
 	public static String formatTimerStringNoZeros(int time) {
 		return formatTimerStringNoZeros(time, false);
 	}
-	
+
 	public static String formatTimerStringNoZeros(int time, boolean alwaysHaveSign) {
 		int t = Math.abs(time);
 		int hours = t / (60 * 60 * 10);
@@ -45,11 +45,11 @@ public class Util {
 		text += String.format("%" + (first ? "" : "02") + "d.", seconds);
 		found = true;
 		first = false;
-		
+
 		text += String.format("%" + "d", tenths);
 
 		if (time > 0) {
-			return alwaysHaveSign? "+"+text : text;
+			return alwaysHaveSign ? "+" + text : text;
 		} else if (time < 0) {
 			return "-" + text;
 		} else {

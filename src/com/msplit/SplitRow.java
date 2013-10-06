@@ -9,10 +9,10 @@ import com.msplit.urnmodel.UrnSplit;
 public class SplitRow {
 	private UrnSplit urnSplit;
 	private RunSplit runSplit;
-	
+
 	public SplitRow() {
 	}
-	
+
 	public SplitRow(UrnSplit urnSplit, RunSplit runSplit) {
 		super();
 		this.urnSplit = urnSplit;
@@ -38,10 +38,10 @@ public class SplitRow {
 	public void reset() {
 		runSplit = null;
 	}
-	
-	public static List<SplitRow> createSplitRows(Urn urn){
+
+	public static List<SplitRow> createSplitRows(Urn urn) {
 		List<SplitRow> rows = new ArrayList<SplitRow>();
-		for(UrnSplit s: urn.getSplits()){
+		for (UrnSplit s : urn.getSplits()) {
 			rows.add(new SplitRow(s, null));
 		}
 		return rows;

@@ -51,7 +51,7 @@ public class EditSplitDialog extends AlertDialog {
 				setResultUrnSplit(new UrnSplit(newName, newTime.toInt()));
 			}
 		});
-		setButton(BUTTON_NEGATIVE,"Cancel", new DialogInterface.OnClickListener() {
+		setButton(BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {
 			@Override
 			public void onClick(DialogInterface dialog, int which) {
 				setResultUrnSplit(null);

@@ -51,7 +51,7 @@ public class HomePage extends ListActivity {
 		super.onListItemClick(l, v, position, id);
 		String urnValue = (String) l.getItemAtPosition(position);
 		Toast.makeText(this, urnValue, Toast.LENGTH_SHORT).show();
-		
+
 		Intent i = new Intent(HomePage.this, MainActivity.class);
 		i.putExtra(MainActivity.URN_NAME_PARAM, urnValue);
 		startActivity(i);

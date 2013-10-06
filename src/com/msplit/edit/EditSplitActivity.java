@@ -30,8 +30,8 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.editurn);
 		editSplitListView = (ListView) findViewById(R.id.editsplitlistview);
 		urn = (Urn) getIntent().getExtras().get(URN_TO_EDIT);
-		titleText = (EditText)findViewById(R.id.edittitle);
-		if(urn.getFilename()!=null){
+		titleText = (EditText) findViewById(R.id.edittitle);
+		if (urn.getFilename() != null) {
 			oldFileName = urn.getFilename();
 			titleText.setText(urn.getFilename());
 		}
@@ -58,17 +58,17 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 	}
 
 	public void saveClicked(View v) {
-		if(titleText.getText().toString().equals("")){
+		if (titleText.getText().toString().equals("")) {
 			Toast.makeText(this, "You must have a have a Title", Toast.LENGTH_LONG).show();
 			return;
 		}
-		
-		try {		
+
+		try {
 			urn.setFilename(titleText.getText().toString());
 			urnUtil.save(urn);
-			
-			//If the old and new file names do not match, delete the old one
-			if(oldFileName!=urn.getFilename()){
+
+			// If the old and new file names do not match, delete the old one
+			if (oldFileName != urn.getFilename()) {
 				urnUtil.delete(oldFileName);
 			}
 		} catch (IOException e) {

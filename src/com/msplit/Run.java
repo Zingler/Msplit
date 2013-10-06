@@ -96,9 +96,9 @@ public class Run {
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		newUrn.setFilename(urn.getFilename());
-		for(int i=0; i < splits.size(); i++){
+		for (int i = 0; i < splits.size(); i++) {
 			int time;
-			if(splits.get(i).getRunSplit()!=null){
+			if (splits.get(i).getRunSplit() != null) {
 				time = splits.get(i).getRunSplit().getTime();
 			} else {
 				time = splits.get(i).getUrnSplit().getTime();

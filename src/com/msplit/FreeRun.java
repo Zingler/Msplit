@@ -40,7 +40,7 @@ public class FreeRun extends Run {
 	}
 
 	public boolean split() {
-		splits.add(new SplitRow(new UrnSplit(null,time), null));
+		splits.add(new SplitRow(new UrnSplit(null, time), null));
 		splitIndex++;
 		activity.updateSplitList();
 		return true;
