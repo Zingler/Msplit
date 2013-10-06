@@ -31,13 +31,18 @@ public class HomePage extends ListActivity {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_home_page);
+		urnUtil = UrnUtil.getInstance(this);
+	}
+	
+	@Override
+	public void onStart(){
 		List<String> recentSplits = UrnUtil.getInstance(this).getRecentSplits().list();
 		List<String> sublist = new ArrayList<String>();
 		for (int i = 0; i < recentSplits.size() && i < 5; i++) {
 			sublist.add(recentSplits.get(i));
 		}
 		setListAdapter(new RecentSplitAdapter(this, sublist));
-		urnUtil = UrnUtil.getInstance(this);
+		super.onStart();
 	}
 
 	@Override

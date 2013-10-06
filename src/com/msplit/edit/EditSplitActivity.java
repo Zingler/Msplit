@@ -68,7 +68,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 			urnUtil.save(urn);
 
 			// If the old and new file names do not match, delete the old one
-			if (oldFileName != urn.getFilename()) {
+			if (!oldFileName.equals(urn.getFilename())) {
 				urnUtil.delete(oldFileName);
 			}
 		} catch (IOException e) {

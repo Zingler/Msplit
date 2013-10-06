@@ -48,7 +48,11 @@ public class MainActivity extends Activity {
 		mainTimer = (TextView) findViewById(R.id.maintimer);
 		splitListUtil = UrnUtil.getInstance(this);
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-
+	}
+	
+	@Override
+	public void onStart(){
+		super.onStart();
 		String urnString = (String) getIntent().getExtras().get(URN_NAME_PARAM);
 		if (urnString != null) {
 			try {
