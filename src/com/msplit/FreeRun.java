@@ -43,6 +43,7 @@ public class FreeRun extends Run {
 		splits.add(new SplitRow(new UrnSplit(null, time), null));
 		splitIndex++;
 		activity.updateSplitList();
+		activity.scrollToSplit(splitIndex);
 		return true;
 	}
 

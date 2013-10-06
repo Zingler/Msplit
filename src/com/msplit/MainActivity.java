@@ -85,6 +85,10 @@ public class MainActivity extends Activity {
 	public void updateSplitList() {
 		((BaseAdapter) splitTable.getAdapter()).notifyDataSetChanged();
 	}
+	
+	public void scrollToSplit(int position){
+		splitTable.smoothScrollToPosition(position);
+	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {

@@ -82,6 +82,7 @@ public class Run {
 			stop();
 		}
 		activity.updateSplitList();
+		activity.scrollToSplit(splitIndex+4);
 		return true;
 	}
 
