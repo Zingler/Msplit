@@ -8,6 +8,7 @@ import com.msplit.urnmodel.UrnSplit;
 import com.msplit.urnmodel.UrnUtil;
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
@@ -39,6 +40,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		editSplitListView.setAdapter(adapter);
 		editSplitListView.setOnItemClickListener(this);
 		urnUtil = UrnUtil.getInstance(this);
+		setResult(RESULT_CANCELED);
 	}
 
 	public void addSplit(View v) {
@@ -75,6 +77,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 			Toast.makeText(this, "Was unable to save " + urn.getFilename(), Toast.LENGTH_LONG).show();
 			return;
 		}
+		setResult(RESULT_OK, new Intent().putExtra("urn", urn));
 		finish();
 	}
 

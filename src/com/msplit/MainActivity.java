@@ -48,11 +48,7 @@ public class MainActivity extends Activity {
 		mainTimer = (TextView) findViewById(R.id.maintimer);
 		splitListUtil = UrnUtil.getInstance(this);
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
-	}
-	
-	@Override
-	public void onStart(){
-		super.onStart();
+		
 		String urnString = (String) getIntent().getExtras().get(URN_NAME_PARAM);
 		if (urnString != null) {
 			try {
@@ -117,7 +113,7 @@ public class MainActivity extends Activity {
 				u = urn;
 			}
 			intent.putExtra(EditSplitActivity.URN_TO_EDIT, u);
-			startActivity(intent);
+			startActivityForResult(intent, 1);
 			overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 			return true;
 		default:
@@ -183,27 +179,14 @@ public class MainActivity extends Activity {
 		return builder.create();
 	}
 
-	private AlertDialog createLoadDialog() {
-		AlertDialog.Builder builder = new AlertDialog.Builder(this);
-		builder.setTitle("Load");
-		final String[] list = splitListUtil.listUrns();
-		builder.setItems(list, new DialogInterface.OnClickListener() {
-			@Override
-			public void onClick(DialogInterface dialog, int which) {
-				try {
-					Urn loadedList = splitListUtil.load(list[which]);
-					changeToRun(loadedList);
-					Toast.makeText(getApplicationContext(), "Loaded " + list[which], Toast.LENGTH_SHORT).show();
-				} catch (Exception e) {
-					Toast.makeText(getApplicationContext(), "Could not load the Split", Toast.LENGTH_SHORT).show();
-				} finally {
-					dialog.dismiss();
-				}
-			}
-		});
-		return builder.create();
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data){
+		if(resultCode==RESULT_OK){
+			Urn newUrn = (Urn)data.getExtras().get("urn");
+			changeToRun(newUrn);
+		}
 	}
-
+	
 	@Override
 	public void finish() {
 		super.finish();
