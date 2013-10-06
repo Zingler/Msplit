@@ -15,7 +15,7 @@ import android.widget.TextView;
 public class Run {
 
 	public Timer stopwatch;
-	public boolean isRunning = false;
+	protected boolean isRunning = false;
 	public int time = 0;
 	public int splitIndex = 0;
 	protected MainActivity activity;
@@ -83,6 +83,14 @@ public class Run {
 		}
 		activity.updateSplitList();
 		return true;
+	}
+
+	public boolean isRunning() {
+		return isRunning;
+	}
+
+	public void setRunning(boolean isRunning) {
+		this.isRunning = isRunning;
 	}
 
 	public Urn createUrnFromRun() {

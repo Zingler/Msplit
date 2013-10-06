@@ -18,9 +18,9 @@ public class SplitOverlayView extends android.view.View {
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
 		if (event.getAction() == MotionEvent.ACTION_DOWN) {
-			mainActivity.splitButtonClicked(null);
+			return mainActivity.splitButtonClicked(null);
 		}
-		return true;
+		return false;
 	}
 
 }
