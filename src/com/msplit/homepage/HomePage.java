@@ -41,12 +41,6 @@ public class HomePage extends ListActivity {
 	}
 
 	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.activity_home_page, menu);
-		return true;
-	}
-
-	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
 		String urnValue = (String) l.getItemAtPosition(position);

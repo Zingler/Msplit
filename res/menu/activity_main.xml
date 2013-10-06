@@ -1,28 +1,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
-        android:id="@+id/three_dots_item"
-        android:icon="@drawable/ic_drawer"
-        android:showAsAction="always"
-        android:title="">
-        <menu>
-            <item
-                android:id="@+id/save_split"
-                android:showAsAction="never"
-                android:title="Save"/>
-            <item
-                android:id="@+id/load_split"
-                android:showAsAction="never"
-                android:title="Load"/>
-            <item
-                android:id="@+id/free_run"
-                android:showAsAction="never"
-                android:title="Free run"/>
-            <item
-                android:id="@+id/edit_urn"
-                android:showAsAction="never"
-                android:title="Edit run"/>
-        </menu>
-    </item>
+        android:id="@+id/save_split"
+        android:showAsAction="ifRoom"
+        android:title="Save"/>
+    <item
+        android:id="@+id/edit_urn"
+        android:showAsAction="ifRoom"
+        android:title="Edit"/>
 
 </menu>

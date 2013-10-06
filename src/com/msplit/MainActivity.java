@@ -103,12 +103,6 @@ public class MainActivity extends Activity {
 		case R.id.save_split:
 			createSaveDialog().show();
 			return true;
-		case R.id.load_split:
-			createLoadDialog().show();
-			return true;
-		case R.id.free_run:
-			changeToFreeRun();
-			return true;
 		case R.id.edit_urn:
 			Intent intent = new Intent(this, EditSplitActivity.class);
 			Urn u;
