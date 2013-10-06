@@ -79,6 +79,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void changeToFreeRun() {
+		setTitle("(New Splits)");
 		List<SplitRow> splitRows = new ArrayList<SplitRow>();
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 
