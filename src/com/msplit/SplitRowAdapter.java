@@ -16,11 +16,14 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 
 	private int resource;
 	private LayoutInflater inflater;
-
+	private int red;
+	private int green;
+	
 	public SplitRowAdapter(Context context, List<SplitRow> values) {
 
 		super(context, R.layout.split, values);
-
+		red = getContext().getResources().getColor(R.color.Red);
+		green = getContext().getResources().getColor(R.color.Green);
 		this.resource = R.layout.split;
 		this.inflater = LayoutInflater.from(context);
 	}
@@ -46,9 +49,9 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 			int delta = item.getRunSplit().getTime() - item.getUrnSplit().getTime();
 			String deltaString = Util.formatTimerStringNoZeros(delta, true);
 			if (delta > 0) {
-				textviewTime.setTextColor(Color.RED);
+				textviewTime.setTextColor(red);
 			} else if (delta < 0) {
-				textviewTime.setTextColor(0xFF2AB834);
+				textviewTime.setTextColor(green);
 			}
 			textviewTime.setText(deltaString);
 		}

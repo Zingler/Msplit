@@ -31,6 +31,7 @@ public class MainActivity extends Activity {
 	public final static long DOUBLE_SPLIT_PREVENT_TIME_MILLIS = 500;
 	public int counter = 0;
 	public TextView mainTimer;
+	public TextView splitDelta;
 	public Timer stopwatch;
 	public ListView splitTable;
 	public UrnUtil splitListUtil;
@@ -38,6 +39,9 @@ public class MainActivity extends Activity {
 	public Run run;
 	public Urn urn;
 	public boolean inFreeRun;
+	private int green; 
+	private int red;
+	private int defaultColor;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -46,8 +50,12 @@ public class MainActivity extends Activity {
 		splitTable = (ListView) findViewById(R.id.splittable);
 
 		mainTimer = (TextView) findViewById(R.id.maintimer);
+		splitDelta = (TextView) findViewById(R.id.splitdelta);
 		splitListUtil = UrnUtil.getInstance(this);
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
+		red = getResources().getColor(R.color.Red);
+		green = getResources().getColor(R.color.Green);
+		defaultColor = splitDelta.getTextColors().getDefaultColor();
 		
 		String urnString = (String) getIntent().getExtras().get(URN_NAME_PARAM);
 		if (urnString != null) {
@@ -82,9 +90,22 @@ public class MainActivity extends Activity {
 		run = new FreeRun(this, splitRows);
 		inFreeRun = true;
 	}
-
+	
 	public void updateSplitList() {
 		((BaseAdapter) splitTable.getAdapter()).notifyDataSetChanged();
+		runOnUiThread(new Runnable(){
+			public void run() {
+				splitDelta.setText(Util.formatTimerStringNoZeros(run.getDelta(), true));
+				if(run.getDelta() > 0){
+					splitDelta.setTextColor(red);
+				} else if (run.getDelta() < 0){
+					splitDelta.setTextColor(green);
+				} else {
+					splitDelta.setTextColor(defaultColor);
+				}
+			}
+		});
+		
 	}
 	
 	public void scrollToSplit(int position){

@@ -29,34 +29,49 @@
             android:text="Reset" />
     </LinearLayout>
 
-    <TextView
-        android:id="@+id/maintimer"
+    <RelativeLayout
+        android:id="@+id/timerlayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_above="@id/buttonlayout"
-        android:layout_centerHorizontal="true"
-        android:text="00:00:00.0"
-        android:textSize="35dp"
-        tools:context=".MainActivity" />
-    
+        android:layout_above="@id/buttonlayout" >
+
+        <TextView
+            android:id="@+id/maintimer"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="00:00:00.0"
+            android:textSize="35dp"
+            tools:context=".MainActivity" />
+
+        <TextView
+            android:id="@+id/splitdelta"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text=""
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
     <ListView
         android:id="@+id/splittable"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/maintimer"
+        android:layout_above="@id/timerlayout"
         android:layout_alignParentTop="true"
         android:orientation="vertical"
-        android:stretchColumns="1">
+        android:stretchColumns="1" >
     </ListView>
-    
+
     <com.msplit.SplitOverlayView
         android:id="@+id/splitoverlay"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_above="@+id/maintimer"
+        android:layout_above="@+id/timerlayout"
         android:layout_alignParentTop="true"
         android:focusable="true"
         android:focusableInTouchMode="true" >
     </com.msplit.SplitOverlayView>
-    
+
 </RelativeLayout>

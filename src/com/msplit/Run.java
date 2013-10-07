@@ -23,6 +23,7 @@ public class Run {
 	List<SplitRow> splits;
 	private Urn urn;
 	protected ArrayList<RunSplit> runSplits;
+	private int delta = 0;
 
 	public Run() {
 	}
@@ -59,6 +60,7 @@ public class Run {
 		isRunning = false;
 		time = 0;
 		splitIndex = 0;
+		delta = 0;
 		for (SplitRow s : splits) {
 			s.reset();
 		}
@@ -77,6 +79,7 @@ public class Run {
 		}
 		SplitRow s = splits.get(splitIndex);
 		s.setRunSplit(new RunSplit(time));
+		this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime()) - delta;
 		splitIndex++;
 		if (splitIndex == splits.size()) {
 			stop();
@@ -92,6 +95,14 @@ public class Run {
 
 	public void setRunning(boolean isRunning) {
 		this.isRunning = isRunning;
+	}
+
+	public int getDelta() {
+		return delta;
+	}
+
+	public void setDelta(int delta) {
+		this.delta = delta;
 	}
 
 	public Urn createUrnFromRun() {
