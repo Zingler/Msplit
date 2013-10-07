@@ -76,7 +76,8 @@ public class MainActivity extends Activity {
 		this.setTitle(urn.getFilename());
 		List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
-
+		splitDelta.setVisibility(View.VISIBLE);
+		
 		run = new Run(this, urn, splitRows);
 		run.reset();
 		inFreeRun = false;
@@ -86,6 +87,7 @@ public class MainActivity extends Activity {
 		setTitle("(New Splits)");
 		List<SplitRow> splitRows = new ArrayList<SplitRow>();
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
+		splitDelta.setVisibility(View.INVISIBLE);
 
 		run = new FreeRun(this, splitRows);
 		inFreeRun = true;
