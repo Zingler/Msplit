@@ -84,7 +84,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void changeToFreeRun() {
-		setTitle("(New Splits)");
+		setTitle("(New Split)");
 		List<SplitRow> splitRows = new ArrayList<SplitRow>();
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 		splitDelta.setVisibility(View.INVISIBLE);
@@ -195,6 +195,7 @@ public class MainActivity extends Activity {
 					changeToRun(newUrn);
 				} catch (IOException e) {
 					Toast.makeText(getApplicationContext(), "Could not save the file", Toast.LENGTH_SHORT).show();
+					Log.e("save", e.getMessage());
 				}
 			}
 		});

@@ -9,6 +9,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -85,7 +86,9 @@ public class UrnUtil {
 	}
 
 	public String[] listUrns() {
-		return splitDir.list();
+		String [] list = splitDir.list();
+		Arrays.sort(list);
+		return list;
 	}
 
 	public PriorityList<String> getRecentSplits() {
