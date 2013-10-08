@@ -74,4 +74,15 @@
         android:focusableInTouchMode="true" >
     </com.msplit.SplitOverlayView>
 
+    <com.msplit.util.FadingTextView
+        android:id="@+id/splitanywheretext"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:alpha=".8"
+        android:text="Tap anywhere to split"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:visibility="invisible" />
+
 </RelativeLayout>

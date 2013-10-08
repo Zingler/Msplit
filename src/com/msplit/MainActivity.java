@@ -9,6 +9,7 @@ import com.msplit.R;
 import com.msplit.edit.EditSplitActivity;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnUtil;
+import com.msplit.util.FadingTextView;
 
 import android.os.Bundle;
 import android.os.Vibrator;
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
 	public int counter = 0;
 	public TextView mainTimer;
 	public TextView splitDelta;
+	public FadingTextView tapAnywhere;
 	public Timer stopwatch;
 	public ListView splitTable;
 	public UrnUtil splitListUtil;
@@ -51,6 +53,7 @@ public class MainActivity extends Activity {
 
 		mainTimer = (TextView) findViewById(R.id.maintimer);
 		splitDelta = (TextView) findViewById(R.id.splitdelta);
+		tapAnywhere = (FadingTextView) findViewById(R.id.splitanywheretext);
 		splitListUtil = UrnUtil.getInstance(this);
 		vibrator = (Vibrator) getSystemService(VIBRATOR_SERVICE);
 		red = getResources().getColor(R.color.Red);
@@ -77,6 +80,7 @@ public class MainActivity extends Activity {
 		List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 		splitDelta.setVisibility(View.VISIBLE);
+		tapAnywhere.setVisibility(View.INVISIBLE);
 		
 		run = new Run(this, urn, splitRows);
 		run.reset();
@@ -88,7 +92,7 @@ public class MainActivity extends Activity {
 		List<SplitRow> splitRows = new ArrayList<SplitRow>();
 		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
 		splitDelta.setVisibility(View.INVISIBLE);
-
+		
 		run = new FreeRun(this, splitRows);
 		inFreeRun = true;
 	}

@@ -6,6 +6,7 @@ import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
+import android.view.View;
 import android.widget.TextView;
 
 public class FreeRun extends Run {
@@ -14,6 +15,21 @@ public class FreeRun extends Run {
 		this.splits = splitRows;
 		this.activity = (MainActivity) activity;
 		maintimer = (TextView) activity.findViewById(R.id.maintimer);
+	}
+
+	boolean isFreshStart = true;
+
+	public void start() {
+		super.start();
+		if (isFreshStart) {
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					activity.tapAnywhere.setVisibility(View.VISIBLE);
+				}
+			});
+			isFreshStart = false;
+		}
 	}
 
 	public void stop() {
@@ -29,6 +45,7 @@ public class FreeRun extends Run {
 		}
 		isRunning = false;
 		time = 0;
+		isFreshStart = true;
 		splitIndex = 0;
 		splits.clear();
 		activity.runOnUiThread(new Runnable() {
@@ -44,6 +61,14 @@ public class FreeRun extends Run {
 		splitIndex++;
 		activity.updateSplitList();
 		activity.scrollToSplit(splitIndex);
+		if (splitIndex == 1) {
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					activity.tapAnywhere.setVisibility(View.INVISIBLE);
+				}
+			});
+		}
 		return true;
 	}
 
