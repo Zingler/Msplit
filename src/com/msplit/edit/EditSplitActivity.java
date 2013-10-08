@@ -7,9 +7,12 @@ import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 import com.msplit.urnmodel.UrnUtil;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
@@ -20,6 +23,7 @@ import android.widget.AdapterView.OnItemClickListener;
 
 public class EditSplitActivity extends Activity implements OnItemClickListener {
 	public static final String URN_TO_EDIT = "URN_TO_EDIT";
+	public static final int DELETED_RETURN_CODE = 1;
 	private ListView editSplitListView;
 	private UrnUtil urnUtil;
 	private Urn urn;
@@ -103,6 +107,36 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 				}
 			}
 		});
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.edit, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		// Handle item selection
+		switch (item.getItemId()) {
+		case R.id.delete:
+			AlertDialog.Builder builder = new AlertDialog.Builder(this);
+			builder.setTitle("Delete?");
+			builder.setMessage("Are you sure you want to delete "+urn.getFilename()+"?");
+			builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				@Override
+				public void onClick(DialogInterface dialog, int which) {
+						urnUtil.delete(urn.getFilename());
+						setResult(DELETED_RETURN_CODE);
+						finish();
+				}
+			});
+			builder.setNegativeButton("No", null);
+			builder.create().show();
+			return true;
+		default:
+			return super.onOptionsItemSelected(item);
+		}
 	}
 
 	public void updateSplitList() {

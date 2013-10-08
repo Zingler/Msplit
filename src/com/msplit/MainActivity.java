@@ -207,6 +207,8 @@ public class MainActivity extends Activity {
 		if(resultCode==RESULT_OK){
 			Urn newUrn = (Urn)data.getExtras().get("urn");
 			changeToRun(newUrn);
+		} else if(resultCode==EditSplitActivity.DELETED_RETURN_CODE){
+			finish();
 		}
 	}
 	
