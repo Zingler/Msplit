@@ -79,7 +79,14 @@ public class Run {
 		}
 		SplitRow s = splits.get(splitIndex);
 		s.setRunSplit(new RunSplit(time));
-		this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime()) - delta;
+		if(splitIndex==0){
+			this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime());
+		} else {
+			this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime()) - 
+					     (splits.get(splitIndex-1).getRunSplit().getTime() - splits.get(splitIndex-1).getUrnSplit().getTime());
+		}
+		
+		
 		splitIndex++;
 		if (splitIndex == splits.size()) {
 			stop();
