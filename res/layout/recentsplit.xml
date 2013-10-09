@@ -1,15 +1,26 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:descendantFocusability="beforeDescendants"
     android:layout_width="wrap_content"
-    android:layout_height="40dp" >
+    android:layout_height="wrap_content"
+    android:descendantFocusability="beforeDescendants" >
 
     <TextView
         android:id="@+id/recentsplitname"
+        android:padding="12dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:text="Name of the Split"
         android:textAppearance="?android:attr/textAppearanceLarge" />
+
+    <TextView
+        android:id="@+id/recentsplittime"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:text="1:33.7"
+        android:padding="12dp"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
     
 </RelativeLayout>

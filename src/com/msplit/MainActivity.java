@@ -115,7 +115,8 @@ public class MainActivity extends Activity {
 	}
 	
 	public void scrollToSplit(int position){
-		splitTable.smoothScrollToPosition(position);
+		
+		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight()/2);
 	}
 
 	@Override

@@ -34,8 +34,12 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 
 		SplitRow item = (SplitRow) getItem(position);
 		
-		if(item.isActive()){
+		if(item.getState() == SplitState.CURRENT){
 			convertView.setBackgroundResource(R.drawable.activesplit);
+		} if (item.getState() == SplitState.FUTURE) {
+			convertView.setAlpha((float).6);
+		} else {
+			convertView.setAlpha(1);
 		}
 		TextView textviewName = (TextView) convertView.findViewById(R.id.name);
 		TextView textviewTime = (TextView) convertView.findViewById(R.id.time);

@@ -9,7 +9,7 @@ import com.msplit.urnmodel.UrnSplit;
 public class SplitRow {
 	private UrnSplit urnSplit;
 	private RunSplit runSplit;
-	private boolean active = false;
+	private SplitState state = SplitState.FUTURE;
 
 	public SplitRow() {
 	}
@@ -38,7 +38,7 @@ public class SplitRow {
 
 	public void reset() {
 		runSplit = null;
-		setActive(false);
+		setState(SplitState.FUTURE);
 	}
 
 	public static List<SplitRow> createSplitRows(Urn urn) {
@@ -49,12 +49,12 @@ public class SplitRow {
 		return rows;
 	}
 
-	public void setActive(boolean active){
-		this.active = active;
+	public void setState(SplitState state){
+		this.state = state;
 	}
 	
-	public boolean isActive() {
-		return active;
+	public SplitState getState() {
+		return state;
 	}
 
 }

@@ -41,7 +41,7 @@ public class Run {
 			stopwatch = new Timer();
 			stopwatch.scheduleAtFixedRate(new Ticker(this), 100, 100);
 			if(isFreshStart && splits.size()>0){
-				splits.get(0).setActive(true);
+				splits.get(0).setState(SplitState.CURRENT);
 			}
 			activity.updateSplitList();
 			isFreshStart = false;
@@ -84,6 +84,7 @@ public class Run {
 		if (splitIndex >= splits.size()) {
 			return false;
 		}
+		activity.scrollToSplit(splitIndex);
 		SplitRow s = splits.get(splitIndex);
 		s.setRunSplit(new RunSplit(time));
 		if(splitIndex==0){
@@ -92,15 +93,14 @@ public class Run {
 			this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime()) - 
 					     (splits.get(splitIndex-1).getRunSplit().getTime() - splits.get(splitIndex-1).getUrnSplit().getTime());
 		}
-		s.setActive(false);
+		s.setState(SplitState.PAST);
 		splitIndex++;
 		if (splitIndex == splits.size()) {
 			stop();
 		} else {
-			splits.get(splitIndex).setActive(true);
+			splits.get(splitIndex).setState(SplitState.CURRENT);
 		}
 		activity.updateSplitList();
-		activity.scrollToSplit(splitIndex+4);
 		return true;
 	}
 

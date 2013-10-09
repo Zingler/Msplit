@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.msplit.homepage.RecentSplit;
 import com.msplit.util.PriorityList;
 
 import android.app.ActivityManager.RecentTaskInfo;
@@ -25,7 +26,7 @@ public class UrnUtil {
 	private final String MOST_RECENT_SPLITS = "most_recent";
 	private Gson gson;
 	private File splitDir;
-	private PriorityList<String> recentSplits;
+	private PriorityList recentSplits;
 	private Context context;
 
 	public static UrnUtil getInstance(Context c) {
@@ -67,7 +68,7 @@ public class UrnUtil {
 		Log.d("save", f.toString());
 		oos.writeObject(output);
 		oos.close();
-		getRecentSplits().putTop(list.getFilename());
+		getRecentSplits().putTop(new RecentSplit(list));
 		saveRecentSplits();
 	}
 
@@ -80,7 +81,7 @@ public class UrnUtil {
 		Urn list = gson.fromJson(result, Urn.class);
 		Log.d("load", f.toString());
 		list.sort();
-		getRecentSplits().putTop(list.getFilename());
+		getRecentSplits().putTop(new RecentSplit(list));
 		saveRecentSplits();
 		return list;
 	}
@@ -91,19 +92,23 @@ public class UrnUtil {
 		return list;
 	}
 
-	public PriorityList<String> getRecentSplits() {
+	public PriorityList getRecentSplits() {
 		if (recentSplits == null) {
+			ObjectInputStream oos;
 			try {
 				FileInputStream fos = context.openFileInput(MOST_RECENT_SPLITS);
-				ObjectInputStream oos = new ObjectInputStream(fos);
+				oos = new ObjectInputStream(fos);
 				String result = (String) oos.readObject();
 				oos.close();
 				@SuppressWarnings("unchecked")
-				PriorityList<String> list = (PriorityList<String>) gson.fromJson(result, PriorityList.class);
+				PriorityList list = (PriorityList) gson.fromJson(result, PriorityList.class);
+				if(list.list().size()>0){
+					RecentSplit test = (RecentSplit)list.list().get(0);
+				}
 				recentSplits = list;
 			} catch (Exception e) {
 				Log.e("Load", "Was not able to load recent splits : " + e.getMessage());
-				recentSplits = new PriorityList<String>();
+				recentSplits = new PriorityList();
 			}
 		}
 		return recentSplits;
@@ -118,13 +123,15 @@ public class UrnUtil {
 			oos.close();
 		} catch (Exception e) {
 			Log.e("Load", "Was not able to save recent splits : " + e.getMessage());
-		}
+		} 
 	}
 
 	public void delete(String name) {
 		File f = new File(splitDir + "/" + name);
 		f.delete();
-		getRecentSplits().remove(name);
+		RecentSplit r = new RecentSplit();
+		r.setFilename(name);
+		getRecentSplits().remove(r);
 		saveRecentSplits();
 	}
 }

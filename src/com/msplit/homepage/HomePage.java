@@ -36,8 +36,8 @@ public class HomePage extends ListActivity {
 	
 	@Override
 	public void onStart(){
-		List<String> recentSplits = UrnUtil.getInstance(this).getRecentSplits().list();
-		List<String> sublist = new ArrayList<String>();
+		List<RecentSplit> recentSplits = UrnUtil.getInstance(this).getRecentSplits().list();
+		List<RecentSplit> sublist = new ArrayList<RecentSplit>();
 		for (int i = 0; i < recentSplits.size() && i < 5; i++) {
 			sublist.add(recentSplits.get(i));
 		}
@@ -48,10 +48,10 @@ public class HomePage extends ListActivity {
 	@Override
 	protected void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		String urnValue = (String) l.getItemAtPosition(position);
+		RecentSplit urn = (RecentSplit) l.getItemAtPosition(position);
 
 		Intent i = new Intent(HomePage.this, MainActivity.class);
-		i.putExtra(MainActivity.URN_NAME_PARAM, urnValue);
+		i.putExtra(MainActivity.URN_NAME_PARAM, urn.getFilename());
 		startActivity(i);
 		overridePendingTransition(R.anim.anim_in_left, R.anim.anim_out_left);
 	}

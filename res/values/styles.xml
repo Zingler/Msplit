@@ -1,3 +1,7 @@
 <resources>
     <style name="AppTheme" parent="android:Theme.Holo" />
+    
+    <style name="padding" parent="android:Widget.Holo.TextView">
+        <item name="android:padding">6dp</item>
+    </style>
 </resources>

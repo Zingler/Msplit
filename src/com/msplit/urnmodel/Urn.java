@@ -45,6 +45,14 @@ public class Urn implements Serializable {
 		splits.add(u);
 		sort();
 	}
+	
+	public int getOverallTime(){
+		if(splits.size()>0){
+			return splits.get(splits.size()-1).getTime();
+		} else {
+			return 0;
+		}
+	}
 
 	public void sort() {
 		Collections.sort(splits);

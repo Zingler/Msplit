@@ -3,6 +3,7 @@ package com.msplit.homepage;
 import java.util.List;
 
 import com.msplit.R;
+import com.msplit.Util;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -12,12 +13,12 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class RecentSplitAdapter extends ArrayAdapter<String> {
+public class RecentSplitAdapter extends ArrayAdapter<RecentSplit> {
 
 	private int resource;
 	private LayoutInflater inflater;
 
-	public RecentSplitAdapter(Context context, List<String> values) {
+	public RecentSplitAdapter(Context context, List<RecentSplit> values) {
 
 		super(context, R.layout.split, values);
 		this.resource = R.layout.recentsplit;
@@ -28,10 +29,13 @@ public class RecentSplitAdapter extends ArrayAdapter<String> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(resource, null);
 
-		String item = (String) getItem(position);
+		RecentSplit item = (RecentSplit) getItem(position);
 
 		TextView textviewName = (TextView) convertView.findViewById(R.id.recentsplitname);
-		textviewName.setText(item);
+		textviewName.setText(item.getFilename());
+		
+		TextView textviewTime = (TextView) convertView.findViewById(R.id.recentsplittime);
+		textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
 
 		return convertView;
 	}
