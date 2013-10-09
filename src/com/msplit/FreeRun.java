@@ -17,16 +17,19 @@ public class FreeRun extends Run {
 		this.splits = splitRows;
 		this.activity = (MainActivity) activity;
 		maintimer = (TextView) activity.findViewById(R.id.maintimer);
+		stopwatch = new Stopwatch();
 	}
 
 	public void start() {
 		if (!isRunning) {
-			stopwatch = new Timer();
-			stopwatch.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			refresher = new Timer();
+			refresher.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			stopwatch.start();
 			activity.updateSplitList();
 			isRunning = true;
 		} else {
-			stopwatch.cancel();
+			refresher.cancel();
+			stopwatch.stop();
 			isRunning = false;
 		}
 		if (isFreshStart) {
@@ -41,18 +44,19 @@ public class FreeRun extends Run {
 	}
 
 	public void stop() {
-		if (stopwatch != null) {
-			stopwatch.cancel();
+		if (refresher != null) {
+			refresher.cancel();
+			stopwatch.stop();
 		}
 		isRunning = false;
 	}
 
 	public void reset() {
-		if (stopwatch != null) {
-			stopwatch.cancel();
+		if (refresher != null) {
+			refresher.cancel();
 		}
 		isRunning = false;
-		time = 0;
+		stopwatch.reset();
 		isFreshStart = true;
 		splitIndex = 0;
 		splits.clear();
@@ -65,7 +69,7 @@ public class FreeRun extends Run {
 	}
 
 	public boolean split() {
-		splits.add(new SplitRow(new UrnSplit(null, time), null));
+		splits.add(new SplitRow(new UrnSplit(null, stopwatch.getTimeInTenths()), null));
 		splitIndex++;
 		activity.updateSplitList();
 		activity.scrollToSplit(splitIndex);

@@ -14,10 +14,10 @@ import android.widget.TextView;
 
 public class Run {
 
-	public Timer stopwatch;
+	public Timer refresher;
+	public Stopwatch stopwatch;
 	protected boolean isRunning = false;
 	boolean isFreshStart = true;
-	public int time = 0;
 	public int splitIndex = 0;
 	protected MainActivity activity;
 	TextView maintimer;
@@ -34,12 +34,14 @@ public class Run {
 		this.urn = urn;
 		this.splits = splitsview;
 		maintimer = (TextView) activity.findViewById(R.id.maintimer);
+		stopwatch = new Stopwatch();
 	}
 
 	public void start() {
 		if (!isRunning) {
-			stopwatch = new Timer();
-			stopwatch.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			refresher = new Timer();
+			refresher.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			stopwatch.start();
 			if(isFreshStart && splits.size()>0){
 				splits.get(0).setState(SplitState.CURRENT);
 			}
@@ -47,24 +49,26 @@ public class Run {
 			isFreshStart = false;
 			isRunning = true;
 		} else {
-			stopwatch.cancel();
+			refresher.cancel();
+			stopwatch.stop();
 			isRunning = false;
 		}
 	}
 
 	public void stop() {
-		if (stopwatch != null) {
-			stopwatch.cancel();
+		if (refresher != null) {
+			refresher.cancel();
+			stopwatch.stop();
 		}
 		isRunning = false;
 	}
 
 	public void reset() {
-		if (stopwatch != null) {
-			stopwatch.cancel();
+		if (refresher != null) {
+			refresher.cancel();
 		}
 		isRunning = false;
-		time = 0;
+		stopwatch.reset();
 		splitIndex = 0;
 		delta = 0;
 		for (SplitRow s : splits) {
@@ -86,7 +90,7 @@ public class Run {
 		}
 		activity.scrollToSplit(splitIndex);
 		SplitRow s = splits.get(splitIndex);
-		s.setRunSplit(new RunSplit(time));
+		s.setRunSplit(new RunSplit(stopwatch.getTimeInTenths()));
 		if(splitIndex==0){
 			this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime());
 		} else {
@@ -144,11 +148,10 @@ public class Run {
 
 		@Override
 		public void run() {
-			urn.time++;
 			activity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {
-					maintimer.setText(Util.formatTimerString(urn.time));
+					maintimer.setText(Util.formatTimerString(stopwatch.getTimeInTenths()));
 				}
 			});
 		}
