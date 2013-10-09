@@ -16,6 +16,7 @@ public class Run {
 
 	public Timer stopwatch;
 	protected boolean isRunning = false;
+	boolean isFreshStart = true;
 	public int time = 0;
 	public int splitIndex = 0;
 	protected MainActivity activity;
@@ -39,6 +40,11 @@ public class Run {
 		if (!isRunning) {
 			stopwatch = new Timer();
 			stopwatch.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			if(isFreshStart && splits.size()>0){
+				splits.get(0).setActive(true);
+			}
+			activity.updateSplitList();
+			isFreshStart = false;
 			isRunning = true;
 		} else {
 			stopwatch.cancel();
@@ -64,6 +70,7 @@ public class Run {
 		for (SplitRow s : splits) {
 			s.reset();
 		}
+		isFreshStart = true;
 		activity.updateSplitList();
 		activity.runOnUiThread(new Runnable() {
 			@Override
@@ -85,11 +92,12 @@ public class Run {
 			this.delta = (s.getRunSplit().getTime()-s.getUrnSplit().getTime()) - 
 					     (splits.get(splitIndex-1).getRunSplit().getTime() - splits.get(splitIndex-1).getUrnSplit().getTime());
 		}
-		
-		
+		s.setActive(false);
 		splitIndex++;
 		if (splitIndex == splits.size()) {
 			stop();
+		} else {
+			splits.get(splitIndex).setActive(true);
 		}
 		activity.updateSplitList();
 		activity.scrollToSplit(splitIndex+4);

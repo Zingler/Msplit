@@ -1,7 +1,9 @@
 package com.msplit;
 
 import java.util.List;
+import java.util.Timer;
 
+import com.msplit.Run.Ticker;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 
@@ -17,10 +19,16 @@ public class FreeRun extends Run {
 		maintimer = (TextView) activity.findViewById(R.id.maintimer);
 	}
 
-	boolean isFreshStart = true;
-
 	public void start() {
-		super.start();
+		if (!isRunning) {
+			stopwatch = new Timer();
+			stopwatch.scheduleAtFixedRate(new Ticker(this), 100, 100);
+			activity.updateSplitList();
+			isRunning = true;
+		} else {
+			stopwatch.cancel();
+			isRunning = false;
+		}
 		if (isFreshStart) {
 			activity.runOnUiThread(new Runnable() {
 				@Override

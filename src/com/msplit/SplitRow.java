@@ -9,6 +9,7 @@ import com.msplit.urnmodel.UrnSplit;
 public class SplitRow {
 	private UrnSplit urnSplit;
 	private RunSplit runSplit;
+	private boolean active = false;
 
 	public SplitRow() {
 	}
@@ -37,6 +38,7 @@ public class SplitRow {
 
 	public void reset() {
 		runSplit = null;
+		setActive(false);
 	}
 
 	public static List<SplitRow> createSplitRows(Urn urn) {
@@ -45,6 +47,14 @@ public class SplitRow {
 			rows.add(new SplitRow(s, null));
 		}
 		return rows;
+	}
+
+	public void setActive(boolean active){
+		this.active = active;
+	}
+	
+	public boolean isActive() {
+		return active;
 	}
 
 }

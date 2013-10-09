@@ -33,7 +33,10 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 		convertView = inflater.inflate(resource, null);
 
 		SplitRow item = (SplitRow) getItem(position);
-
+		
+		if(item.isActive()){
+			convertView.setBackgroundResource(R.drawable.activesplit);
+		}
 		TextView textviewName = (TextView) convertView.findViewById(R.id.name);
 		TextView textviewTime = (TextView) convertView.findViewById(R.id.time);
 
