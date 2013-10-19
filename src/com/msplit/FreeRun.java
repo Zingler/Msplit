@@ -3,7 +3,6 @@ package com.msplit;
 import java.util.List;
 import java.util.Timer;
 
-import com.msplit.Run.Ticker;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 

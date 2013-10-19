@@ -5,8 +5,6 @@ import com.msplit.urnmodel.UrnSplit;
 import com.msplit.util.Time;
 
 import android.app.AlertDialog;
-import android.app.Dialog;
-import android.app.AlertDialog.Builder;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;

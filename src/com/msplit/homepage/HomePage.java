@@ -5,26 +5,18 @@ import java.util.List;
 
 import com.msplit.MainActivity;
 import com.msplit.R;
-import com.msplit.R.id;
-import com.msplit.R.layout;
-import com.msplit.R.menu;
-import com.msplit.Util;
 import com.msplit.urnmodel.UrnUtil;
 
 import android.os.Bundle;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.view.Menu;
 import android.view.View;
 import android.widget.ListView;
-import android.widget.Toast;
 
 public class HomePage extends ListActivity {
 
-	private ListView recentSplitsListView;
 	private UrnUtil urnUtil;
 
 	@Override

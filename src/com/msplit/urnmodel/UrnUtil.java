@@ -1,22 +1,17 @@
 package com.msplit.urnmodel;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.Arrays;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.msplit.homepage.RecentSplit;
 import com.msplit.util.PriorityList;
 
-import android.app.ActivityManager.RecentTaskInfo;
 import android.content.Context;
 import android.util.Log;
 
@@ -100,11 +95,7 @@ public class UrnUtil {
 				oos = new ObjectInputStream(fos);
 				String result = (String) oos.readObject();
 				oos.close();
-				@SuppressWarnings("unchecked")
 				PriorityList list = (PriorityList) gson.fromJson(result, PriorityList.class);
-				if(list.list().size()>0){
-					RecentSplit test = (RecentSplit)list.list().get(0);
-				}
 				recentSplits = list;
 			} catch (Exception e) {
 				Log.e("Load", "Was not able to load recent splits : " + e.getMessage());
