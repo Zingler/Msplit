@@ -37,7 +37,7 @@ public class UrnUtil {
 		this.gson = new Gson();
 		this.context = context;
 		splitDir = context.getDir(SPLIT_DIR, Context.MODE_PRIVATE);
-		Log.d("File", splitDir.toString());
+		Log.d("file", splitDir.toString());
 	}
 
 	public Urn sampleUrn() {
@@ -60,7 +60,7 @@ public class UrnUtil {
 		File f = new File(splitDir + "/" + list.getFilename());
 		FileOutputStream fos = new FileOutputStream(f);
 		ObjectOutputStream oos = new ObjectOutputStream(fos);
-		Log.d("save", f.toString());
+		Log.d("file", f.toString());
 		oos.writeObject(output);
 		oos.close();
 		getRecentSplits().putTop(new RecentSplit(list));
@@ -74,7 +74,7 @@ public class UrnUtil {
 		String result = (String) oos.readObject();
 		oos.close();
 		Urn list = gson.fromJson(result, Urn.class);
-		Log.d("load", f.toString());
+		Log.d("file", f.toString());
 		list.sort();
 		getRecentSplits().putTop(new RecentSplit(list));
 		saveRecentSplits();
