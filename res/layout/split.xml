@@ -2,22 +2,32 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content" >
-
+
     <TextView
-        android:id="@+id/name"
-        style="@style/padding"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Medium Text"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
-
-    <TextView
-        android:id="@+id/time"
+        android:id="@+id/delta"
         style="@style/padding"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:text="Medium Text"
+        android:text="Delta"
+        android:textAppearance="?android:attr/textAppearanceLarge" />	
+	<TextView
+        android:id="@+id/time"
+        style="@style/padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/delta"
+        android:text="Time"
         android:textAppearance="?android:attr/textAppearanceLarge" />
-
+	
+	<TextView
+        android:id="@+id/name"
+        style="@style/padding"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/time"
+        android:layout_alignParentLeft="true"
+        android:text="Name"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
+	
 </RelativeLayout>

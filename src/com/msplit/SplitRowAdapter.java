@@ -42,24 +42,27 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 		}
 		TextView textviewName = (TextView) convertView.findViewById(R.id.name);
 		TextView textviewTime = (TextView) convertView.findViewById(R.id.time);
+		TextView textviewDelta = (TextView) convertView.findViewById(R.id.delta);
 
+		textviewTime.setText("");
 		if (item.getUrnSplit() == null) {
-			textviewTime.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
 			return convertView;
 		}
 		textviewName.setText(item.getUrnSplit().getName());
 
 		if (item.getRunSplit() == null) {
-			textviewTime.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
+			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
 		} else {
 			int delta = item.getRunSplit().getTime() - item.getUrnSplit().getTime();
 			String deltaString = Util.formatTimerStringNoZeros(delta, true);
 			if (delta > 0) {
-				textviewTime.setTextColor(red);
+				textviewDelta.setTextColor(red);
 			} else if (delta < 0) {
-				textviewTime.setTextColor(green);
+				textviewDelta.setTextColor(green);
 			}
-			textviewTime.setText(deltaString);
+			textviewTime.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewDelta.setText(deltaString);
 		}
 		return convertView;
 	}
