@@ -12,15 +12,21 @@ public class FadingTextView extends TextView {
 
 	public FadingTextView(Context context, AttributeSet attrs) {
 		super(context, attrs);
-		// TODO Auto-generated constructor stub
+		lastState = this.getVisibility();
 	}
-		
+
+	public int lastState;
+
 	@Override
-	public void setVisibility(int visibility){
-		if(visibility==View.VISIBLE){
-			startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
-		} else {
-			startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadeout));
+	public void setVisibility(int visibility) {
+		if (lastState != visibility) {
+			if (visibility == View.VISIBLE) {
+				startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadein));
+				lastState = View.VISIBLE;
+			} else {
+				startAnimation(AnimationUtils.loadAnimation(getContext(), R.anim.fadeout));
+				lastState = View.INVISIBLE;
+			}
 		}
 	}
 
