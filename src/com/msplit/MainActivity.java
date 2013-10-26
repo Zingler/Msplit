@@ -38,7 +38,7 @@ public class MainActivity extends Activity {
 	public ListView splitTable;
 	public UrnUtil splitListUtil;
 	public Vibrator vibrator;
-	public Run run;
+	public AbstractRunController runController;
 	public Urn urn;
 	public boolean inFreeRun;
 	private int green; 
@@ -77,23 +77,23 @@ public class MainActivity extends Activity {
 	private void changeToRun(Urn newUrn) {
 		this.urn = newUrn;
 		this.setTitle(urn.getFilename());
-		List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
-		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
+		if(runController!=null){
+			runController.cleanUp();
+		}
+		runController = new RunController(this, urn);
+		
+		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
 		splitDelta.setVisibility(View.VISIBLE);
 		tapAnywhere.setVisibility(View.INVISIBLE);
-		
-		run = new Run(this, urn, splitRows);
-		run.reset();
 		inFreeRun = false;
 	}
 
 	private void changeToFreeRun() {
 		setTitle("(New Split)");
-		List<SplitRow> splitRows = new ArrayList<SplitRow>();
-		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
-		splitDelta.setVisibility(View.INVISIBLE);
+		runController = new FreeRunController(this);
 		
-		run = new FreeRun(this, splitRows);
+		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
+		splitDelta.setVisibility(View.INVISIBLE);
 		inFreeRun = true;
 	}
 	
@@ -101,10 +101,10 @@ public class MainActivity extends Activity {
 		((BaseAdapter) splitTable.getAdapter()).notifyDataSetChanged();
 		runOnUiThread(new Runnable(){
 			public void run() {
-				splitDelta.setText(Util.formatTimerStringNoZeros(run.getDelta(), true));
-				if(run.getDelta() > 0){
+				splitDelta.setText(Util.formatTimerStringNoZeros(runController.getDelta(), true));
+				if(runController.getDelta() > 0){
 					splitDelta.setTextColor(red);
-				} else if (run.getDelta() < 0){
+				} else if (runController.getDelta() < 0){
 					splitDelta.setTextColor(green);
 				} else {
 					splitDelta.setTextColor(defaultColor);
@@ -136,7 +136,7 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(this, EditSplitActivity.class);
 			Urn u;
 			if (inFreeRun) {
-				u = run.createUrnFromRun();
+				u = runController.createUrnFromRun();
 			} else {
 				u = urn;
 			}
@@ -150,8 +150,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void startButtonClicked(View view) {
-		run.start();
-		if (run.isRunning()) {
+		runController.start();
+		if (runController.isRunning()) {
 			((TextView) view).setText("Pause");
 		} else {
 			((TextView) view).setText("Start");
@@ -160,17 +160,17 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		run.reset();
+		changeToRun(urn);
 		((TextView) findViewById(R.id.start)).setText("Start");
 	}
 
 	long lastSplitTime = 0;
 
 	public boolean splitButtonClicked(View view) {
-		if (run.isRunning()) {
+		if (runController.isRunning()) {
 			if (System.currentTimeMillis() - lastSplitTime > DOUBLE_SPLIT_PREVENT_TIME_MILLIS) {
 				lastSplitTime = System.currentTimeMillis();
-				if (run.split()) {
+				if (runController.split()) {
 					vibrator.vibrate(50);
 				}
 			}
@@ -194,7 +194,7 @@ public class MainActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				String newName = filename.getText().toString();
 				try {
-					Urn newUrn = run.createUrnFromRun();
+					Urn newUrn = runController.createUrnFromRun();
 					newUrn.setFilename(newName);
 					splitListUtil.save(newUrn);
 					changeToRun(newUrn);

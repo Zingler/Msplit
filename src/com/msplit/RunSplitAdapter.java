@@ -3,6 +3,8 @@ package com.msplit;
 import java.util.List;
 
 import com.msplit.R;
+import com.msplit.runmodel.RunSplit;
+import com.msplit.runmodel.SplitState;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,14 +13,14 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
+public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 
 	private int resource;
 	private LayoutInflater inflater;
 	private int red;
 	private int green;
 	
-	public SplitRowAdapter(Context context, List<SplitRow> values) {
+	public RunSplitAdapter(Context context, List<RunSplit> values) {
 
 		super(context, R.layout.split, values);
 		red = getContext().getResources().getColor(R.color.Red);
@@ -31,7 +33,7 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(resource, null);
 
-		SplitRow item = (SplitRow) getItem(position);
+		RunSplit item = (RunSplit) getItem(position);
 		
 		if(item.getState() == SplitState.CURRENT){
 			convertView.setBackgroundResource(R.drawable.activesplit);
@@ -46,22 +48,22 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 
 		textviewTime.setText("");
 		if (item.getUrnSplit() == null) {
-			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getTime()));
 			return convertView;
 		}
 		textviewName.setText(item.getUrnSplit().getName());
 
-		if (item.getRunSplit() == null) {
+		if (item.getState() != SplitState.PAST) {
 			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
 		} else {
-			int delta = item.getRunSplit().getTime() - item.getUrnSplit().getTime();
+			int delta = item.getSplitDelta();
 			String deltaString = Util.formatTimerStringNoZeros(delta, true);
 			if (delta > 0) {
 				textviewDelta.setTextColor(red);
 			} else if (delta < 0) {
 				textviewDelta.setTextColor(green);
 			}
-			textviewTime.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
 			textviewDelta.setText(deltaString);
 		}
 		return convertView;
