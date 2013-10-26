@@ -49,6 +49,7 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 
 		textviewTime.setText("");
 		if (item.getUrnSplit() == null) {
+			textviewName.setText("");
 			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getTime()));
 			return convertView;
 		}

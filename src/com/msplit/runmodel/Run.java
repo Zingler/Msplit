@@ -65,9 +65,9 @@ public class Run {
 		if(index==0) {
 			return 0;
 		} else if (index == 1){
-			return runSplits.get(1).getSplitDelta();
+			return runSplits.get(0).getSplitDelta();
 		} else {
-			return runSplits.get(index-2).getSplitDelta() - runSplits.get(index-1).getSplitDelta();
+			return runSplits.get(index-1).getSplitDelta() - runSplits.get(index-2).getSplitDelta();
 		}
 	}
 
