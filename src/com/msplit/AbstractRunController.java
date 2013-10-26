@@ -90,7 +90,11 @@ public abstract class AbstractRunController {
 	}
 
 	public int getDelta() {
-		return run.getRunDelta();
+		if(hasDeltas()) {
+			return run.getRunDelta();
+		} else {
+			throw new Error("RunController does not have deltas.");
+		}
 	}
 
 	public List<RunSplit> getRunSplits() {
@@ -98,6 +102,7 @@ public abstract class AbstractRunController {
 	}
 
 	public abstract Urn createUrnFromRun();
+	public abstract boolean hasDeltas();
 
 	class Ticker extends TimerTask {
 		AbstractRunController urn;

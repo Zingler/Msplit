@@ -41,7 +41,7 @@ public class MainActivity extends Activity {
 	public AbstractRunController runController;
 	public Urn urn;
 	public boolean inFreeRun;
-	private int green; 
+	private int green;
 	private int red;
 	private int defaultColor;
 
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 		red = getResources().getColor(R.color.Red);
 		green = getResources().getColor(R.color.Green);
 		defaultColor = splitDelta.getTextColors().getDefaultColor();
-		
+
 		String urnString = (String) getIntent().getExtras().get(URN_NAME_PARAM);
 		if (urnString != null) {
 			try {
@@ -77,11 +77,11 @@ public class MainActivity extends Activity {
 	private void changeToRun(Urn newUrn) {
 		this.urn = newUrn;
 		this.setTitle(urn.getFilename());
-		if(runController!=null){
+		if (runController != null) {
 			runController.cleanUp();
 		}
 		runController = new RunController(this, urn);
-		
+
 		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
 		splitDelta.setVisibility(View.VISIBLE);
 		tapAnywhere.setVisibility(View.INVISIBLE);
@@ -91,32 +91,34 @@ public class MainActivity extends Activity {
 	private void changeToFreeRun() {
 		setTitle("(New Split)");
 		runController = new FreeRunController(this);
-		
+
 		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
 		splitDelta.setVisibility(View.INVISIBLE);
 		inFreeRun = true;
 	}
-	
+
 	public void updateSplitList() {
 		((BaseAdapter) splitTable.getAdapter()).notifyDataSetChanged();
-		runOnUiThread(new Runnable(){
+		runOnUiThread(new Runnable() {
 			public void run() {
-				splitDelta.setText(Util.formatTimerStringNoZeros(runController.getDelta(), true));
-				if(runController.getDelta() > 0){
-					splitDelta.setTextColor(red);
-				} else if (runController.getDelta() < 0){
-					splitDelta.setTextColor(green);
-				} else {
-					splitDelta.setTextColor(defaultColor);
+				if (runController.hasDeltas()) {
+					splitDelta.setText(Util.formatTimerStringNoZeros(runController.getDelta(), true));
+					if (runController.getDelta() > 0) {
+						splitDelta.setTextColor(red);
+					} else if (runController.getDelta() < 0) {
+						splitDelta.setTextColor(green);
+					} else {
+						splitDelta.setTextColor(defaultColor);
+					}
 				}
 			}
 		});
-		
+
 	}
-	
-	public void scrollToSplit(int position){
-		
-		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight()/2);
+
+	public void scrollToSplit(int position) {
+
+		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight() / 2);
 	}
 
 	@Override
@@ -209,15 +211,15 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		if(resultCode==RESULT_OK){
-			Urn newUrn = (Urn)data.getExtras().get("urn");
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Urn newUrn = (Urn) data.getExtras().get("urn");
 			changeToRun(newUrn);
-		} else if(resultCode==EditSplitActivity.DELETED_RETURN_CODE){
+		} else if (resultCode == EditSplitActivity.DELETED_RETURN_CODE) {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void finish() {
 		super.finish();

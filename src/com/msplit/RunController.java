@@ -32,5 +32,10 @@ public class RunController extends AbstractRunController {
 		}
 		return newUrn;
 	}
+
+	@Override
+	public boolean hasDeltas() {
+		return true;
+	}
 	
 }

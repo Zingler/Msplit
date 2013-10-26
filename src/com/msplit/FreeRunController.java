@@ -38,4 +38,9 @@ public class FreeRunController extends AbstractRunController {
 		return newUrn;
 	}
 
+	@Override
+	public boolean hasDeltas() {
+		return false;
+	}
+
 }
