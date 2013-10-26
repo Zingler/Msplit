@@ -28,6 +28,19 @@ public class FreeRunController extends AbstractRunController {
 		}
 		return retval;
 	}
+	
+	@Override
+	public void start(){
+		super.start();
+		if (getSplitIndex() == 0) {
+			activity.runOnUiThread(new Runnable() {
+				@Override
+				public void run() {
+					activity.tapAnywhere.setVisibility(View.VISIBLE);
+				}
+			});
+		}
+	}
 
 	@Override
 	public Urn createUrnFromRun() {

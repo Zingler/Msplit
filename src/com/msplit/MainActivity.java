@@ -44,7 +44,6 @@ public class MainActivity extends Activity {
 	private int green;
 	private int red;
 	private int defaultColor;
-	private boolean freeMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void changeToRun(Urn newUrn) {
-		this.freeMode = false; 
 		this.urn = newUrn;
 		this.setTitle(urn.getFilename());
 		if (runController != null) {
@@ -91,7 +89,6 @@ public class MainActivity extends Activity {
 	}
 
 	private void changeToFreeRun() {
-		this.freeMode = true;
 		if (runController != null) {
 			runController.cleanUp();
 		}
@@ -167,7 +164,7 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		if(freeMode){
+		if(inFreeRun) {
 			changeToFreeRun();
 		} else {
 			changeToRun(urn);
