@@ -1,4 +1,4 @@
-package com.msplit;
+package com.msplit.runmodel;
 
 public enum SplitState {
 	CURRENT, PAST, FUTURE 

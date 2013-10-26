@@ -38,10 +38,10 @@ public class MainActivity extends Activity {
 	public ListView splitTable;
 	public UrnUtil splitListUtil;
 	public Vibrator vibrator;
-	public Run run;
+	public AbstractRunController runController;
 	public Urn urn;
 	public boolean inFreeRun;
-	private int green; 
+	private int green;
 	private int red;
 	private int defaultColor;
 
@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 		red = getResources().getColor(R.color.Red);
 		green = getResources().getColor(R.color.Green);
 		defaultColor = splitDelta.getTextColors().getDefaultColor();
-		
+
 		String urnString = (String) getIntent().getExtras().get(URN_NAME_PARAM);
 		if (urnString != null) {
 			try {
@@ -77,46 +77,50 @@ public class MainActivity extends Activity {
 	private void changeToRun(Urn newUrn) {
 		this.urn = newUrn;
 		this.setTitle(urn.getFilename());
-		List<SplitRow> splitRows = SplitRow.createSplitRows(newUrn);
-		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
+		if (runController != null) {
+			runController.cleanUp();
+		}
+		runController = new RunController(this, urn);
+
+		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.VISIBLE);
 		tapAnywhere.setVisibility(View.INVISIBLE);
-		
-		run = new Run(this, urn, splitRows);
-		run.reset();
 		inFreeRun = false;
 	}
 
 	private void changeToFreeRun() {
+		if (runController != null) {
+			runController.cleanUp();
+		}
 		setTitle("(New Split)");
-		List<SplitRow> splitRows = new ArrayList<SplitRow>();
-		splitTable.setAdapter(new SplitRowAdapter(this, splitRows));
+		runController = new FreeRunController(this);
+
+		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.INVISIBLE);
-		
-		run = new FreeRun(this, splitRows);
 		inFreeRun = true;
 	}
-	
+
 	public void updateSplitList() {
 		((BaseAdapter) splitTable.getAdapter()).notifyDataSetChanged();
-		runOnUiThread(new Runnable(){
+		runOnUiThread(new Runnable() {
 			public void run() {
-				splitDelta.setText(Util.formatTimerStringNoZeros(run.getDelta(), true));
-				if(run.getDelta() > 0){
-					splitDelta.setTextColor(red);
-				} else if (run.getDelta() < 0){
-					splitDelta.setTextColor(green);
-				} else {
-					splitDelta.setTextColor(defaultColor);
+				if (runController.hasDeltas()) {
+					splitDelta.setText(Util.formatTimerStringNoZeros(runController.getDelta(), true));
+					if (runController.getDelta() > 0) {
+						splitDelta.setTextColor(red);
+					} else if (runController.getDelta() < 0) {
+						splitDelta.setTextColor(green);
+					} else {
+						splitDelta.setTextColor(defaultColor);
+					}
 				}
 			}
 		});
-		
+
 	}
-	
-	public void scrollToSplit(int position){
-		
-		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight()/2);
+
+	public void scrollToSplit(int position) {
+		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight() / 2);
 	}
 
 	@Override
@@ -136,7 +140,7 @@ public class MainActivity extends Activity {
 			Intent intent = new Intent(this, EditSplitActivity.class);
 			Urn u;
 			if (inFreeRun) {
-				u = run.createUrnFromRun();
+				u = runController.createUrnFromRun();
 			} else {
 				u = urn;
 			}
@@ -150,8 +154,8 @@ public class MainActivity extends Activity {
 	}
 
 	public void startButtonClicked(View view) {
-		run.start();
-		if (run.isRunning()) {
+		runController.start();
+		if (runController.isRunning()) {
 			((TextView) view).setText("Pause");
 		} else {
 			((TextView) view).setText("Start");
@@ -160,17 +164,21 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		run.reset();
+		if(inFreeRun) {
+			changeToFreeRun();
+		} else {
+			changeToRun(urn);
+		}
 		((TextView) findViewById(R.id.start)).setText("Start");
 	}
 
 	long lastSplitTime = 0;
 
 	public boolean splitButtonClicked(View view) {
-		if (run.isRunning()) {
+		if (runController.isRunning()) {
 			if (System.currentTimeMillis() - lastSplitTime > DOUBLE_SPLIT_PREVENT_TIME_MILLIS) {
 				lastSplitTime = System.currentTimeMillis();
-				if (run.split()) {
+				if (runController.split()) {
 					vibrator.vibrate(50);
 				}
 			}
@@ -194,7 +202,7 @@ public class MainActivity extends Activity {
 			public void onClick(DialogInterface dialog, int which) {
 				String newName = filename.getText().toString();
 				try {
-					Urn newUrn = run.createUrnFromRun();
+					Urn newUrn = runController.createUrnFromRun();
 					newUrn.setFilename(newName);
 					splitListUtil.save(newUrn);
 					changeToRun(newUrn);
@@ -209,15 +217,15 @@ public class MainActivity extends Activity {
 	}
 
 	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data){
-		if(resultCode==RESULT_OK){
-			Urn newUrn = (Urn)data.getExtras().get("urn");
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == RESULT_OK) {
+			Urn newUrn = (Urn) data.getExtras().get("urn");
 			changeToRun(newUrn);
-		} else if(resultCode==EditSplitActivity.DELETED_RETURN_CODE){
+		} else if (resultCode == EditSplitActivity.DELETED_RETURN_CODE) {
 			finish();
 		}
 	}
-	
+
 	@Override
 	public void finish() {
 		super.finish();

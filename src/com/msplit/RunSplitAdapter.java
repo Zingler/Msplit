@@ -1,8 +1,8 @@
 package com.msplit;
 
-import java.util.List;
-
 import com.msplit.R;
+import com.msplit.runmodel.RunSplit;
+import com.msplit.runmodel.SplitState;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -11,31 +11,34 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
+public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 
 	private int resource;
 	private LayoutInflater inflater;
 	private int red;
 	private int green;
+	private AbstractRunController controller;
 	
-	public SplitRowAdapter(Context context, List<SplitRow> values) {
+	public RunSplitAdapter(Context context, AbstractRunController controller) {
 
-		super(context, R.layout.split, values);
+		super(context, R.layout.split, controller.getRunSplits());
 		red = getContext().getResources().getColor(R.color.Red);
 		green = getContext().getResources().getColor(R.color.Green);
 		this.resource = R.layout.split;
 		this.inflater = LayoutInflater.from(context);
+		this.controller = controller;
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		convertView = inflater.inflate(resource, null);
 
-		SplitRow item = (SplitRow) getItem(position);
+		RunSplit item = (RunSplit) getItem(position);
 		
-		if(item.getState() == SplitState.CURRENT){
+		if(item.getState() == SplitState.CURRENT && controller.isRunning()){
 			convertView.setBackgroundResource(R.drawable.activesplit);
-		} if (item.getState() == SplitState.FUTURE) {
+		} if (item.getState() == SplitState.FUTURE || 
+			 (item.getState() == SplitState.CURRENT && !controller.isRunning())) {
 			convertView.setAlpha((float).6);
 		} else {
 			convertView.setAlpha(1);
@@ -46,22 +49,23 @@ public class SplitRowAdapter extends ArrayAdapter<SplitRow> {
 
 		textviewTime.setText("");
 		if (item.getUrnSplit() == null) {
-			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewName.setText("");
+			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getTime()));
 			return convertView;
 		}
 		textviewName.setText(item.getUrnSplit().getName());
 
-		if (item.getRunSplit() == null) {
+		if (item.getState() != SplitState.PAST) {
 			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
 		} else {
-			int delta = item.getRunSplit().getTime() - item.getUrnSplit().getTime();
+			int delta = item.getSplitDelta();
 			String deltaString = Util.formatTimerStringNoZeros(delta, true);
 			if (delta > 0) {
 				textviewDelta.setTextColor(red);
 			} else if (delta < 0) {
 				textviewDelta.setTextColor(green);
 			}
-			textviewTime.setText(Util.formatTimerStringNoZeros(item.getRunSplit().getTime()));
+			textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
 			textviewDelta.setText(deltaString);
 		}
 		return convertView;
