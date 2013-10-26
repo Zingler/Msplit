@@ -20,7 +20,7 @@ public abstract class AbstractRunController {
 	public Stopwatch stopwatch;
 	protected boolean isRunning = false;
 	boolean isFreshStart = true;
-	public int splitIndex = 0;
+
 	protected MainActivity activity;
 	TextView maintimer;
 	Run run;
@@ -73,12 +73,16 @@ public abstract class AbstractRunController {
 		if(!didSplit) {
 			return false;
 		}
-		activity.scrollToSplit(splitIndex);
 		if (run.isDone()) {
 			stop();
 		} 
 		activity.updateSplitList();
+		activity.scrollToSplit(getSplitIndex());
 		return true;
+	}
+
+	public int getSplitIndex() {
+		return run.getSplitIndex();
 	}
 
 	public boolean isRunning() {
@@ -121,4 +125,5 @@ public abstract class AbstractRunController {
 			});
 		}
 	}
+
 }

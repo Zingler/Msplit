@@ -22,9 +22,14 @@ public class Run {
 		this.freeRun = false;
 		this.index = 0;
 		RunSplit r;
+		boolean first = true;
 		for (UrnSplit split : urn.getSplits()) {
 			r = new RunSplit(split);
 			runSplits.add(r);
+			if(first){
+				r.setState(SplitState.CURRENT);
+				first = false;
+			}
 		}
 	}
 
@@ -76,5 +81,9 @@ public class Run {
 
 	public List<RunSplit> getRunSplits() {
 		return runSplits;
+	}
+
+	public int getSplitIndex() {
+		return index;
 	}
 }

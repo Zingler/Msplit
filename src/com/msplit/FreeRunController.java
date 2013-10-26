@@ -18,7 +18,7 @@ public class FreeRunController extends AbstractRunController {
 
 	public boolean split() {
 		boolean retval = super.split();
-		if (splitIndex == 1) {
+		if (getSplitIndex() == 1) {
 			activity.runOnUiThread(new Runnable() {
 				@Override
 				public void run() {

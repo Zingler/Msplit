@@ -37,5 +37,4 @@ public class RunController extends AbstractRunController {
 	public boolean hasDeltas() {
 		return true;
 	}
-	
 }

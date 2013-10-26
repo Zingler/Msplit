@@ -1,7 +1,5 @@
 package com.msplit;
 
-import java.util.List;
-
 import com.msplit.R;
 import com.msplit.runmodel.RunSplit;
 import com.msplit.runmodel.SplitState;
@@ -19,14 +17,16 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 	private LayoutInflater inflater;
 	private int red;
 	private int green;
+	private AbstractRunController controller;
 	
-	public RunSplitAdapter(Context context, List<RunSplit> values) {
+	public RunSplitAdapter(Context context, AbstractRunController controller) {
 
-		super(context, R.layout.split, values);
+		super(context, R.layout.split, controller.getRunSplits());
 		red = getContext().getResources().getColor(R.color.Red);
 		green = getContext().getResources().getColor(R.color.Green);
 		this.resource = R.layout.split;
 		this.inflater = LayoutInflater.from(context);
+		this.controller = controller;
 	}
 
 	@Override
@@ -35,9 +35,10 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 
 		RunSplit item = (RunSplit) getItem(position);
 		
-		if(item.getState() == SplitState.CURRENT){
+		if(item.getState() == SplitState.CURRENT && controller.isRunning()){
 			convertView.setBackgroundResource(R.drawable.activesplit);
-		} if (item.getState() == SplitState.FUTURE) {
+		} if (item.getState() == SplitState.FUTURE || 
+			 (item.getState() == SplitState.CURRENT && !controller.isRunning())) {
 			convertView.setAlpha((float).6);
 		} else {
 			convertView.setAlpha(1);

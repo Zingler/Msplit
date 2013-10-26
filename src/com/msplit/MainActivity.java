@@ -44,6 +44,7 @@ public class MainActivity extends Activity {
 	private int green;
 	private int red;
 	private int defaultColor;
+	private boolean freeMode;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -75,6 +76,7 @@ public class MainActivity extends Activity {
 	}
 
 	private void changeToRun(Urn newUrn) {
+		this.freeMode = false; 
 		this.urn = newUrn;
 		this.setTitle(urn.getFilename());
 		if (runController != null) {
@@ -82,17 +84,21 @@ public class MainActivity extends Activity {
 		}
 		runController = new RunController(this, urn);
 
-		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
+		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.VISIBLE);
 		tapAnywhere.setVisibility(View.INVISIBLE);
 		inFreeRun = false;
 	}
 
 	private void changeToFreeRun() {
+		this.freeMode = true;
+		if (runController != null) {
+			runController.cleanUp();
+		}
 		setTitle("(New Split)");
 		runController = new FreeRunController(this);
 
-		splitTable.setAdapter(new RunSplitAdapter(this, runController.getRunSplits()));
+		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.INVISIBLE);
 		inFreeRun = true;
 	}
@@ -117,7 +123,6 @@ public class MainActivity extends Activity {
 	}
 
 	public void scrollToSplit(int position) {
-
 		splitTable.smoothScrollToPositionFromTop(position, splitTable.getHeight() / 2);
 	}
 
@@ -162,7 +167,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		changeToRun(urn);
+		if(freeMode){
+			changeToFreeRun();
+		} else {
+			changeToRun(urn);
+		}
 		((TextView) findViewById(R.id.start)).setText("Start");
 	}
 
