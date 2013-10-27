@@ -57,7 +57,7 @@ public class RunSplit {
 	}
 	
 	public boolean isGoldSplit(){
-		if(urnSplit != null){
+		if(urnSplit != null && state == SplitState.PAST){
 			return segmentTime < urnSplit.getBestSegment();
 		} else {
 			return false;
