@@ -45,8 +45,11 @@ public class FreeRunController extends AbstractRunController {
 	@Override
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
+		UrnSplit u;
 		for (RunSplit r : runSplits) {
-			newUrn.add(new UrnSplit(null, r.getTime()));
+			u = new UrnSplit(null, r.getTime());
+			newUrn.add(u);
+			u.resetBestSegment();
 		}
 		return newUrn;
 	}

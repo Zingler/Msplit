@@ -52,6 +52,10 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	public void setBestSegment(int bestSegment) {
 		this.bestSegment = bestSegment;
 	}
+	
+	public void resetBestSegment() {
+		bestSegment = getSegmentTime();
+	}
 
 	public Urn getUrn() {
 		return urn;

@@ -21,7 +21,7 @@ public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 
 	public EditSplitAdapter(Context context, List<UrnSplit> values) {
 
-		super(context, R.layout.split, values);
+		super(context, R.layout.editsplit, values);
 		this.resource = R.layout.editsplit;
 		this.inflater = LayoutInflater.from(context);
 		this.splits = values;
