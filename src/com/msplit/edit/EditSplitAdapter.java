@@ -35,6 +35,8 @@ public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 
 		TextView textviewName = (TextView) convertView.findViewById(R.id.editname);
 		TextView textviewTime = (TextView) convertView.findViewById(R.id.edittime);
+		TextView textViewSegment = (TextView) convertView.findViewById(R.id.editsegment);
+		TextView textViewBestSegment = (TextView) convertView.findViewById(R.id.editbestsegment);
 		Button remove = (Button) convertView.findViewById(R.id.editsplitremove);
 		remove.setOnClickListener(new View.OnClickListener() {
 			@Override
@@ -46,6 +48,8 @@ public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 
 		textviewName.setText(item.getName());
 		textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
+		textViewSegment.setText(Util.formatTimerStringNoZeros(item.getSegmentTime()));
+		textViewBestSegment.setText(Util.formatTimerStringNoZeros(item.getBestSegment()));
 
 		return convertView;
 	}

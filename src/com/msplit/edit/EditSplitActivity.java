@@ -35,6 +35,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.editurn);
 		editSplitListView = (ListView) findViewById(R.id.editsplitlistview);
 		urn = (Urn) getIntent().getExtras().get(URN_TO_EDIT);
+		urn.fixUrnSplits();
 		titleText = (EditText) findViewById(R.id.edittitle);
 		if (urn.getFilename() != null) {
 			oldFileName = urn.getFilename();
