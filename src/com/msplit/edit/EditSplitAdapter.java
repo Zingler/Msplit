@@ -41,7 +41,7 @@ public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 		remove.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				splits.remove(position);
+				splits.get(position).remove();
 				EditSplitAdapter.this.notifyDataSetChanged();
 			}
 		});

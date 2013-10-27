@@ -66,7 +66,7 @@ public class Urn implements Serializable {
 			for (UrnSplit u : splits){
 				u.setUrn(this);
 				u.setIndex(i);
-				if(!u.getHasBestSplitBeenSet()){
+				if(!u.isBestSegmentValid()) {
 					u.setBestSegment(u.getSegmentTime());
 				}
 				i++;
