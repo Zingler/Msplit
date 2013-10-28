@@ -23,7 +23,8 @@ public abstract class AbstractRunController {
 
 	protected MainActivity activity;
 	TextView maintimer;
-	Run run;
+	protected Run run;
+	protected Urn urn;
 	
 	protected List<RunSplit> runSplits;
 
@@ -99,6 +100,10 @@ public abstract class AbstractRunController {
 		} else {
 			throw new Error("RunController does not have deltas.");
 		}
+	}
+
+	public Urn getUrn() {
+		return urn;
 	}
 
 	public List<RunSplit> getRunSplits() {
