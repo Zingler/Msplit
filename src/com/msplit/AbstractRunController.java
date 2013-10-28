@@ -104,6 +104,14 @@ public abstract class AbstractRunController {
 	public List<RunSplit> getRunSplits() {
 		return run.getRunSplits();
 	}
+	
+	public boolean hasGoldSplits(){
+		return run.hasGoldSplits();
+	}
+	
+	public boolean isNewUrn(){
+		return run.isNewUrn();
+	}
 
 	public abstract Urn createUrnFromRun();
 	public abstract boolean hasDeltas();

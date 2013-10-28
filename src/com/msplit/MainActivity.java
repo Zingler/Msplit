@@ -164,7 +164,11 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		if(inFreeRun) {
+		new ResetCheckPipeline(this, runController).doResetChecks();
+	}
+
+	public void reset() {
+		if (inFreeRun) {
 			changeToFreeRun();
 		} else {
 			changeToRun(urn);
