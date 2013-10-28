@@ -13,7 +13,6 @@ public class FreeRunController extends AbstractRunController {
 	public FreeRunController(Activity activity) {
 		super(activity);
 		this.run = new Run(true);
-		this.runSplits = run.getRunSplits();
 	}
 
 	public boolean split() {
@@ -46,7 +45,7 @@ public class FreeRunController extends AbstractRunController {
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		UrnSplit u;
-		for (RunSplit r : runSplits) {
+		for (RunSplit r : getRunSplits()) {
 			u = new UrnSplit(null, r.getTime());
 			newUrn.add(u);
 			u.resetBestSegment();

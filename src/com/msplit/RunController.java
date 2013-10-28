@@ -22,7 +22,7 @@ public class RunController extends AbstractRunController {
 		newUrn.setFilename(urn.getFilename());
 		int time;
 		int bestSegment;
-		for (RunSplit r : runSplits) {
+		for (RunSplit r : getRunSplits()) {
 			if (r.getState() == SplitState.PAST) {
 				time = r.getTime();
 			} else {

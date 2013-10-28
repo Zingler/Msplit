@@ -68,25 +68,26 @@ public class ResetCheckPipeline {
 					Urn urn = runController.createUrnFromRun();
 					try {
 						util.save(urn);
+						ResetCheckPipeline.this.finish(urn);
 					} catch (IOException e) {
 						Toast.makeText(activity, "Could not save run", Toast.LENGTH_SHORT).show();
 						Log.e("file", "Could not save run "+e.getMessage());
-					}
-					ResetCheckPipeline.this.finish();
+						ResetCheckPipeline.this.finish(null);
+					}					
 				}
 			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
-					ResetCheckPipeline.this.finish();
+					ResetCheckPipeline.this.finish(null);
 				}
 			});
 			AlertDialog alertDialog = alertDialogBuilder.create();
 			alertDialog.show();
 		} else {
-			finish();
+			finish(null);
 		}
 	}
 	
-	private void finish() {
-		activity.reset();
+	private void finish(Urn newUrn) {
+		activity.reset(newUrn);
 	}
 }

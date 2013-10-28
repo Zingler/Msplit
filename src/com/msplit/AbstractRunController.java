@@ -26,7 +26,6 @@ public abstract class AbstractRunController {
 	protected Run run;
 	protected Urn urn;
 	
-	protected List<RunSplit> runSplits;
 
 	public AbstractRunController(Activity activity) {
 		this.activity = (MainActivity) activity;
