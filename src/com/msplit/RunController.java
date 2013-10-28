@@ -9,7 +9,6 @@ import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 
 public class RunController extends AbstractRunController {
-	private Urn urn;
 	
 	public RunController(Activity activity, Urn urn){
 		super(activity);
@@ -21,14 +20,23 @@ public class RunController extends AbstractRunController {
 	public Urn createUrnFromRun() {
 		Urn newUrn = new Urn();
 		newUrn.setFilename(urn.getFilename());
-		for (RunSplit r : runSplits) {
-			int time;
-			if (r.getState() == SplitState.PAST || r.getUrnSplit() == null) {
+		int time;
+		int bestSegment;
+		for (RunSplit r : getRunSplits()) {
+			if (r.getState() == SplitState.PAST) {
 				time = r.getTime();
 			} else {
 				time = r.getUrnSplit().getTime();
 			}
-			newUrn.add(new UrnSplit(r.getUrnSplit().getName(), time));
+			
+			if (r.getSegmentTime() < r.getUrnSplit().getBestSegment()){
+				bestSegment = r.getSegmentTime();
+			} else {
+				bestSegment = r.getUrnSplit().getSegmentTime();
+			}
+			UrnSplit u = new UrnSplit(r.getUrnSplit().getName(), time);
+			u.setBestSegment(bestSegment);
+			newUrn.add(u);
 		}
 		return newUrn;
 	}

@@ -164,10 +164,18 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		if(inFreeRun) {
+		new ResetCheckPipeline(this, runController).doResetChecks();
+	}
+
+	public void reset(Urn newUrn) {
+		if (inFreeRun) {
 			changeToFreeRun();
 		} else {
-			changeToRun(urn);
+			if(newUrn != null){
+				changeToRun(newUrn);
+			} else {
+				changeToRun(urn);
+			}
 		}
 		((TextView) findViewById(R.id.start)).setText("Start");
 	}

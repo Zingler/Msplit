@@ -17,13 +17,15 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 	private LayoutInflater inflater;
 	private int red;
 	private int green;
+	private int gold;
 	private AbstractRunController controller;
-	
+
 	public RunSplitAdapter(Context context, AbstractRunController controller) {
 
 		super(context, R.layout.split, controller.getRunSplits());
 		red = getContext().getResources().getColor(R.color.Red);
 		green = getContext().getResources().getColor(R.color.Green);
+		gold = getContext().getResources().getColor(R.color.Gold);
 		this.resource = R.layout.split;
 		this.inflater = LayoutInflater.from(context);
 		this.controller = controller;
@@ -34,12 +36,12 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 		convertView = inflater.inflate(resource, null);
 
 		RunSplit item = (RunSplit) getItem(position);
-		
-		if(item.getState() == SplitState.CURRENT && controller.isRunning()){
+
+		if (item.getState() == SplitState.CURRENT && controller.isRunning()) {
 			convertView.setBackgroundResource(R.drawable.activesplit);
-		} if (item.getState() == SplitState.FUTURE || 
-			 (item.getState() == SplitState.CURRENT && !controller.isRunning())) {
-			convertView.setAlpha((float).6);
+		}
+		if (item.getState() == SplitState.FUTURE || (item.getState() == SplitState.CURRENT && !controller.isRunning())) {
+			convertView.setAlpha((float) .6);
 		} else {
 			convertView.setAlpha(1);
 		}
@@ -60,7 +62,9 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 		} else {
 			int delta = item.getSplitDelta();
 			String deltaString = Util.formatTimerStringNoZeros(delta, true);
-			if (delta > 0) {
+			if (item.getSegmentTime() < item.getUrnSplit().getBestSegment()) {
+				textviewDelta.setTextColor(gold);
+			} else if (delta > 0) {
 				textviewDelta.setTextColor(red);
 			} else if (delta < 0) {
 				textviewDelta.setTextColor(green);

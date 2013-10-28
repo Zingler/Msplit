@@ -6,10 +6,10 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int time;
-	private int bestSegment;
+	private int bestSegment = -1;
 	transient private Urn urn;
 	transient private int index;
-
+	
 	public UrnSplit(String title, int time) {
 		this.name = title;
 		this.time = time;
@@ -41,7 +41,7 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 		if(index == 0){
 			return time;
 		} else {
-			return urn.getSplits().get(index-1).getTime() - time;
+			return time - urn.getSplits().get(index-1).getTime();
 		}
 	}
 
@@ -51,6 +51,10 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 
 	public void setBestSegment(int bestSegment) {
 		this.bestSegment = bestSegment;
+	}
+	
+	public void resetBestSegment() {
+		bestSegment = getSegmentTime();
 	}
 
 	public Urn getUrn() {
@@ -72,6 +76,20 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	@Override
 	public int compareTo(UrnSplit another) {
 		return this.time - another.time;
+	}
+
+	public boolean isBestSegmentValid() {
+		return bestSegment != -1;
+	}
+
+	public void remove() {
+		if(urn != null){
+			urn.getSplits().remove(index);
+			if(urn.getSplits().size() > index){
+				urn.getSplits().get(index).bestSegment = -1;
+			}
+			urn.fixUrnSplits();
+		}
 	}
 
 }

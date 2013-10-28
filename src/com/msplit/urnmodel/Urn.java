@@ -60,12 +60,15 @@ public class Urn implements Serializable {
 		fixUrnSplits();
 	}
 	
-	private void fixUrnSplits() {
+	public void fixUrnSplits() {
 		if(splits != null) {
 			int i = 0;
 			for (UrnSplit u : splits){
 				u.setUrn(this);
 				u.setIndex(i);
+				if(!u.isBestSegmentValid()) {
+					u.setBestSegment(u.getSegmentTime());
+				}
 				i++;
 			}
 		}

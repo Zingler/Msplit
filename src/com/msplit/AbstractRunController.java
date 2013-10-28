@@ -23,9 +23,9 @@ public abstract class AbstractRunController {
 
 	protected MainActivity activity;
 	TextView maintimer;
-	Run run;
+	protected Run run;
+	protected Urn urn;
 	
-	protected List<RunSplit> runSplits;
 
 	public AbstractRunController(Activity activity) {
 		this.activity = (MainActivity) activity;
@@ -101,8 +101,20 @@ public abstract class AbstractRunController {
 		}
 	}
 
+	public Urn getUrn() {
+		return urn;
+	}
+
 	public List<RunSplit> getRunSplits() {
 		return run.getRunSplits();
+	}
+	
+	public boolean hasGoldSplits(){
+		return run.hasGoldSplits();
+	}
+	
+	public boolean isNewUrn(){
+		return run.isNewUrn();
 	}
 
 	public abstract Urn createUrnFromRun();

@@ -86,4 +86,29 @@ public class Run {
 	public int getSplitIndex() {
 		return index;
 	}
+	
+	public int getOverallTime() {
+		if(runSplits.size()>0){
+			return runSplits.get(runSplits.size()-1).getTime();
+		} else {
+			return 0;
+		}
+	}
+	
+	public boolean hasGoldSplits() {
+		for(RunSplit r : runSplits){
+			if(r.isGoldSplit()){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isNewUrn() {
+		if(isDone() && getOverallTime() < urn.getOverallTime()){
+			return true;
+		} else {
+			return false;
+		}
+	}
 }
