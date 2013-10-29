@@ -1,33 +1,89 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:descendantFocusability="beforeDescendants"
     android:layout_width="match_parent"
-    android:layout_height="40dp" >
+    android:layout_height="wrap_content"
+    android:descendantFocusability="beforeDescendants" >
 
-     <Button
+    <Button
         android:id="@+id/editsplitremove"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
         android:focusable="false"
         android:text="Remove" />
 
-    <TextView
-        android:id="@+id/edittime"
+    <RelativeLayout
+        android:id="@+id/editurnsplit"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-        android:text="13:34.1"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/editsplitremove" >
 
-    <TextView
-        android:id="@+id/editname"
+        <TextView
+            android:id="@+id/edittime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:text="13:34.1"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <TextView
+            android:id="@+id/editname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/edittime"
+            android:text="Name of the Split"
+            android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/editurnsegment"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/editsplitremove"
-        android:text="Name of the Split"
-        android:textAppearance="?android:attr/textAppearanceMedium" />
-    
+        android:layout_below="@id/editurnsplit"
+        android:layout_toRightOf="@+id/editsplitremove" >
+
+        <TextView
+            android:id="@+id/editbestsegment"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="1:22.2"
+            android:textAppearance="?android:attr/textAppearanceSmall" />
+
+         <TextView
+             android:id="@+id/editbestsegmentlabel"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_toLeftOf="@id/editbestsegment"
+             android:paddingRight="5dp"
+             android:text="Best"
+             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+         <TextView
+             android:id="@+id/editsegment"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_toLeftOf="@id/editbestsegmentlabel"
+             android:paddingRight="15dp"
+             android:text="1:22.5"
+             android:textAppearance="?android:attr/textAppearanceSmall" />
+
+         <TextView
+             android:id="@+id/editsegmentlabel"
+             android:layout_width="wrap_content"
+             android:layout_height="wrap_content"
+             android:layout_toLeftOf="@id/editsegment"
+             android:paddingRight="5dp"
+             android:text="Segment"
+             android:textAppearance="?android:attr/textAppearanceSmall" />
+         
+    </RelativeLayout>
+
 </RelativeLayout>

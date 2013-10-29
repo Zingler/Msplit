@@ -1,6 +1,6 @@
 package com.msplit;
 
-import java.util.Date;
+import android.os.SystemClock;
 
 public class Stopwatch {
 	private boolean isRunning;
@@ -14,14 +14,14 @@ public class Stopwatch {
 	
 	synchronized public void start(){
 		if(!isRunning){
-			startTime = new Date().getTime();
+			startTime = SystemClock.elapsedRealtime();
 			isRunning = true;
 		}
 	}
 	
 	synchronized public void stop(){
 		if(isRunning){
-			savedTime += new Date().getTime() - startTime;
+			savedTime += SystemClock.elapsedRealtime() - startTime;
 			isRunning = false;
 		}
 	}
@@ -39,7 +39,7 @@ public class Stopwatch {
 		if(!isRunning){
 			return savedTime;
 		} else {
-			return savedTime + new Date().getTime() - startTime;
+			return savedTime + SystemClock.elapsedRealtime() - startTime;
 		}
 	}
 }

@@ -35,6 +35,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		setContentView(R.layout.editurn);
 		editSplitListView = (ListView) findViewById(R.id.editsplitlistview);
 		urn = (Urn) getIntent().getExtras().get(URN_TO_EDIT);
+		urn.fixUrnSplits();
 		titleText = (EditText) findViewById(R.id.edittitle);
 		if (urn.getFilename() != null) {
 			oldFileName = urn.getFilename();
@@ -57,6 +58,11 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 				UrnSplit newUrnSplit = d.getResultUrnSplit();
 				if (newUrnSplit != null) {
 					urn.add(newUrnSplit);
+					int i = newUrnSplit.getIndex();
+					if(i < urn.getSplits().size() - 1){
+						urn.getSplits().get(i+1).invalidateBestSegment();
+						urn.fixUrnSplits();
+					}
 					updateSplitList();
 				}
 			}
@@ -101,14 +107,22 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 				UrnSplit newUrnSplit = d.getResultUrnSplit();
 				if (newUrnSplit != null) {
 					urnSplit.setName(newUrnSplit.getName());
-					urnSplit.setTime(newUrnSplit.getTime());
-					urn.sort();
+					if (newUrnSplit.getTime() != urnSplit.getTime()) {
+						urnSplit.setTime(newUrnSplit.getTime());
+						urnSplit.invalidateBestSegment();
+						urn.sort();
+						int i = urnSplit.getIndex();
+						if (i < urn.getSplits().size() - 1) {
+							urn.getSplits().get(i + 1).invalidateBestSegment();
+							urn.fixUrnSplits();
+						}
+					}
 					updateSplitList();
 				}
 			}
 		});
 	}
-	
+
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.edit, menu);
@@ -122,13 +136,13 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 		case R.id.delete:
 			AlertDialog.Builder builder = new AlertDialog.Builder(this);
 			builder.setTitle("Delete?");
-			builder.setMessage("Are you sure you want to delete "+urn.getFilename()+"?");
+			builder.setMessage("Are you sure you want to delete " + urn.getFilename() + "?");
 			builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				@Override
 				public void onClick(DialogInterface dialog, int which) {
-						urnUtil.delete(urn.getFilename());
-						setResult(DELETED_RETURN_CODE);
-						finish();
+					urnUtil.delete(urn.getFilename());
+					setResult(DELETED_RETURN_CODE);
+					finish();
 				}
 			});
 			builder.setNegativeButton("No", null);

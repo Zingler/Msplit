@@ -39,6 +39,7 @@ public class Urn implements Serializable {
 
 	public void setSplits(List<UrnSplit> splits) {
 		this.splits = splits;
+		sort();
 	}
 
 	public void add(UrnSplit u) {
@@ -56,5 +57,20 @@ public class Urn implements Serializable {
 
 	public void sort() {
 		Collections.sort(splits);
+		fixUrnSplits();
+	}
+	
+	public void fixUrnSplits() {
+		if(splits != null) {
+			int i = 0;
+			for (UrnSplit u : splits){
+				u.setUrn(this);
+				u.setIndex(i);
+				if(!u.isBestSegmentValid()) {
+					u.setBestSegment(u.getSegmentTime());
+				}
+				i++;
+			}
+		}
 	}
 }
