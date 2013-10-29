@@ -2,6 +2,7 @@ package com.msplit;
 
 import java.io.IOException;
 
+import com.msplit.ResetCheckPipeline.ResetCallBack;
 import com.msplit.runmodel.RunSplit;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnUtil;
@@ -15,11 +16,13 @@ public class ResetCheckPipeline {
 	private AbstractRunController runController;
 	private MainActivity activity;
 	private UrnUtil util;
+	private ResetCallBack callback;
 	
-	public ResetCheckPipeline(MainActivity activity, AbstractRunController runController) {
+	public ResetCheckPipeline(MainActivity activity, AbstractRunController runController, ResetCallBack callback) {
 		this.runController = runController;
 		this.activity = activity;
 		this.util = UrnUtil.getInstance(activity);
+		this.callback = callback;
 	}
 	
 	public void doResetChecks() {
@@ -88,6 +91,10 @@ public class ResetCheckPipeline {
 	}
 	
 	private void finish(Urn newUrn) {
-		activity.reset(newUrn);
+		callback.run(newUrn);
+	}
+	
+	public interface ResetCallBack {
+		public void run(Urn urn);
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Timer;
 
 import com.msplit.R;
+import com.msplit.ResetCheckPipeline.ResetCallBack;
 import com.msplit.edit.EditSplitActivity;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnUtil;
@@ -164,14 +165,18 @@ public class MainActivity extends Activity {
 	}
 
 	public void resetButtonClicked(View view) {
-		new ResetCheckPipeline(this, runController).doResetChecks();
+		new ResetCheckPipeline(this, runController, new ResetCallBack() {
+			public void run(Urn urn) {
+				reset(urn);
+			}
+		}).doResetChecks();
 	}
 
 	public void reset(Urn newUrn) {
 		if (inFreeRun) {
 			changeToFreeRun();
 		} else {
-			if(newUrn != null){
+			if (newUrn != null) {
 				changeToRun(newUrn);
 			} else {
 				changeToRun(urn);
@@ -236,7 +241,11 @@ public class MainActivity extends Activity {
 
 	@Override
 	public void finish() {
-		super.finish();
-		overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+		new ResetCheckPipeline(this, runController, new ResetCallBack() {
+			public void run(Urn urn) {
+				MainActivity.super.finish();
+				overridePendingTransition(R.anim.anim_in_right, R.anim.anim_out_right);
+			}
+		}).doResetChecks();
 	}
 }
