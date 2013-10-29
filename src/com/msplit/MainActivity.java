@@ -1,8 +1,6 @@
 package com.msplit;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 
 import com.msplit.R;

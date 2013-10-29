@@ -7,9 +7,7 @@ import java.util.TimerTask;
 import com.msplit.R;
 import com.msplit.runmodel.Run;
 import com.msplit.runmodel.RunSplit;
-import com.msplit.runmodel.SplitState;
 import com.msplit.urnmodel.Urn;
-import com.msplit.urnmodel.UrnSplit;
 
 import android.app.Activity;
 import android.widget.TextView;

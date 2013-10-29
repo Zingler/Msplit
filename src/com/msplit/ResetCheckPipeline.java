@@ -31,7 +31,7 @@ public class ResetCheckPipeline {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 			alertDialogBuilder.setTitle("Gold");
 			alertDialogBuilder.setMessage("Congrats on the Gold splits! Do you want to save them as best segments?")
-			 .setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					for(RunSplit r : runController.getRunSplits()){
 						if(r.isGoldSplit()){
@@ -63,7 +63,7 @@ public class ResetCheckPipeline {
 		if (runController.isNewUrn()) {
 			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
 			alertDialogBuilder.setTitle("New Urn");
-			alertDialogBuilder.setMessage("Congrats on the new Personal Best! Do you want to save this run?").setCancelable(false).setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+			alertDialogBuilder.setMessage("Congrats on the new Personal Best! Do you want to save this run?").setPositiveButton("Yes", new DialogInterface.OnClickListener() {
 				public void onClick(DialogInterface dialog, int id) {
 					Urn urn = runController.createUrnFromRun();
 					try {
