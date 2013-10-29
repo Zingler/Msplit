@@ -60,7 +60,7 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 					urn.add(newUrnSplit);
 					int i = newUrnSplit.getIndex();
 					if(i < urn.getSplits().size() - 1){
-						urn.getSplits().get(i+1).setBestSegment(-1);
+						urn.getSplits().get(i+1).invalidateBestSegment();
 						urn.fixUrnSplits();
 					}
 					updateSplitList();
@@ -109,11 +109,11 @@ public class EditSplitActivity extends Activity implements OnItemClickListener {
 					urnSplit.setName(newUrnSplit.getName());
 					if (newUrnSplit.getTime() != urnSplit.getTime()) {
 						urnSplit.setTime(newUrnSplit.getTime());
-						urnSplit.setBestSegment(-1);
+						urnSplit.invalidateBestSegment();
 						urn.sort();
 						int i = urnSplit.getIndex();
 						if (i < urn.getSplits().size() - 1) {
-							urn.getSplits().get(i + 1).setBestSegment(-1);
+							urn.getSplits().get(i + 1).invalidateBestSegment();
 							urn.fixUrnSplits();
 						}
 					}
