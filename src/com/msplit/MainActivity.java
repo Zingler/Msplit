@@ -85,6 +85,7 @@ public class MainActivity extends Activity {
 		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.VISIBLE);
 		tapAnywhere.setVisibility(View.INVISIBLE);
+		updateSplitList();
 		inFreeRun = false;
 	}
 
@@ -97,6 +98,7 @@ public class MainActivity extends Activity {
 
 		splitTable.setAdapter(new RunSplitAdapter(this, runController));
 		splitDelta.setVisibility(View.INVISIBLE);
+		updateSplitList();
 		inFreeRun = true;
 	}
 

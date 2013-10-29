@@ -29,10 +29,10 @@ public class RunController extends AbstractRunController {
 				time = r.getUrnSplit().getTime();
 			}
 			
-			if (r.getSegmentTime() < r.getUrnSplit().getBestSegment()){
+			if (r.getState() == SplitState.PAST && r.getSegmentTime() < r.getUrnSplit().getBestSegment()){
 				bestSegment = r.getSegmentTime();
 			} else {
-				bestSegment = r.getUrnSplit().getSegmentTime();
+				bestSegment = r.getUrnSplit().getBestSegment();
 			}
 			UrnSplit u = new UrnSplit(r.getUrnSplit().getName(), time);
 			u.setBestSegment(bestSegment);
