@@ -47,9 +47,15 @@ public class EditSplitAdapter extends ArrayAdapter<UrnSplit> {
 		});
 
 		textviewName.setText(item.getName());
-		textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
-		textViewSegment.setText(Util.formatTimerStringNoZeros(item.getSegmentTime()));
-		textViewBestSegment.setText(Util.formatTimerStringNoZeros(item.getBestSegment()));
+		if(item.isBlankSplit()) {
+			textviewTime.setText("");
+			textViewSegment.setText("");
+			textViewBestSegment.setText("");
+		} else {
+			textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
+			textViewSegment.setText(Util.formatTimerStringNoZeros(item.getSegmentTime()));
+			textViewBestSegment.setText(Util.formatTimerStringNoZeros(item.getBestSegment()));
+		}
 
 		return convertView;
 	}

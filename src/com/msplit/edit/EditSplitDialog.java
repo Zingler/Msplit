@@ -8,6 +8,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.NumberPicker;
 
@@ -30,6 +31,7 @@ public class EditSplitDialog extends AlertDialog {
 		final NumberPicker minute = (NumberPicker) v.findViewById(R.id.editdialogminute);
 		final NumberPicker second = (NumberPicker) v.findViewById(R.id.editdialogsecond);
 		final NumberPicker tenthsecond = (NumberPicker) v.findViewById(R.id.editdialogtenthsecond);
+		final CheckBox blankSplit = (CheckBox) v.findViewById(R.id.blanksplitcheckbox); 
 
 		if (sourceUrnSplit != null) {
 			name.setText(sourceUrnSplit.getName());
@@ -38,6 +40,7 @@ public class EditSplitDialog extends AlertDialog {
 			minute.setValue(time.minute);
 			second.setValue(time.second);
 			tenthsecond.setValue(time.tenthsecond);
+			blankSplit.setChecked(sourceUrnSplit.isBlankSplit());
 		}
 
 		setView(v);
@@ -46,7 +49,9 @@ public class EditSplitDialog extends AlertDialog {
 			public void onClick(DialogInterface dialog, int which) {
 				Time newTime = new Time(hour.getValue(), minute.getValue(), second.getValue(), tenthsecond.getValue());
 				String newName = name.getText().toString();
-				setResultUrnSplit(new UrnSplit(newName, newTime.toInt()));
+				UrnSplit result = new UrnSplit(newName, newTime.toInt());
+				result.setBlankSplit(blankSplit.isChecked());
+				setResultUrnSplit(result);
 			}
 		});
 		setButton(BUTTON_NEGATIVE, "Cancel", new DialogInterface.OnClickListener() {

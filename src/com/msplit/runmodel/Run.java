@@ -111,4 +111,13 @@ public class Run {
 			return false;
 		}
 	}
+
+	public boolean hasBlankSplits() {
+		for(UrnSplit u : urn.getSplits()){
+			if (u.isBlankSplit()) {
+				return true;
+			}
+		}
+		return false;
+	}
 }

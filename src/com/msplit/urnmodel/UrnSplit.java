@@ -7,6 +7,7 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	private String name;
 	private int time;
 	private Integer bestSegment = null;
+	private boolean blankSplit;
 	transient private Urn urn;
 	transient private int index;
 	
@@ -53,6 +54,14 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 		this.bestSegment = bestSegment;
 	}
 	
+	public boolean isBlankSplit() {
+		return blankSplit;
+	}
+
+	public void setBlankSplit(boolean blankSplit) {
+		this.blankSplit = blankSplit;
+	}
+
 	public void resetBestSegment() {
 		bestSegment = getSegmentTime();
 	}

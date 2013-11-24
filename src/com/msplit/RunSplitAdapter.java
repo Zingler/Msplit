@@ -58,19 +58,27 @@ public class RunSplitAdapter extends ArrayAdapter<RunSplit> {
 		textviewName.setText(item.getUrnSplit().getName());
 
 		if (item.getState() != SplitState.PAST) {
-			textviewDelta.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
-		} else {
-			int delta = item.getSplitDelta();
-			String deltaString = Util.formatTimerStringNoZeros(delta, true);
-			if (item.getSegmentTime() < item.getUrnSplit().getBestSegment()) {
-				textviewDelta.setTextColor(gold);
-			} else if (delta > 0) {
-				textviewDelta.setTextColor(red);
-			} else if (delta < 0) {
-				textviewDelta.setTextColor(green);
+			if (!item.getUrnSplit().isBlankSplit()) {
+				textviewDelta.setText(Util.formatTimerStringNoZeros(item.getUrnSplit().getTime()));
+			} else {
+				textviewDelta.setText("");
 			}
+		} else {
 			textviewTime.setText(Util.formatTimerStringNoZeros(item.getTime()));
-			textviewDelta.setText(deltaString);
+			if (!item.getUrnSplit().isBlankSplit()) {
+				int delta = item.getSplitDelta();
+				String deltaString = Util.formatTimerStringNoZeros(delta, true);
+				if (item.getSegmentTime() < item.getUrnSplit().getBestSegment()) {
+					textviewDelta.setTextColor(gold);
+				} else if (delta > 0) {
+					textviewDelta.setTextColor(red);
+				} else if (delta < 0) {
+					textviewDelta.setTextColor(green);
+				}
+				textviewDelta.setText(deltaString);
+			} else {
+				textviewDelta.setText("__");
+			}
 		}
 		return convertView;
 	}
