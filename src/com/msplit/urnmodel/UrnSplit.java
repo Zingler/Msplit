@@ -42,7 +42,15 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 		if(index == 0){
 			return time;
 		} else {
-			return time - urn.getSplits().get(index-1).getTime();
+			int i = index - 1;
+			while(i >= 0 && urn.getSplits().get(i).isBlankSplit()){
+				i--;
+			}
+			if(i == -1){
+				return time;
+			} else {
+				return time - urn.getSplits().get(i).getTime();
+			}
 		}
 	}
 
