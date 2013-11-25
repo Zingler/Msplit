@@ -111,6 +111,8 @@ public abstract class AbstractRunController {
 		return run.hasGoldSplits();
 	}
 	
+	public abstract List<RunSplit> getFilledBlankSplits();
+	
 	public boolean isNewUrn(){
 		return run.isNewUrn();
 	}

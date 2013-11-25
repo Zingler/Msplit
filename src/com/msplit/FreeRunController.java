@@ -1,7 +1,11 @@
 package com.msplit;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.msplit.runmodel.Run;
 import com.msplit.runmodel.RunSplit;
+import com.msplit.runmodel.SplitState;
 import com.msplit.urnmodel.Urn;
 import com.msplit.urnmodel.UrnSplit;
 
@@ -56,6 +60,11 @@ public class FreeRunController extends AbstractRunController {
 	@Override
 	public boolean hasDeltas() {
 		return false;
+	}
+
+	@Override
+	public List<RunSplit> getFilledBlankSplits() {
+		return new LinkedList<RunSplit>();
 	}
 
 }

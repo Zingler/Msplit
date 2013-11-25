@@ -1,12 +1,14 @@
 package com.msplit.urnmodel;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	private static final long serialVersionUID = 1L;
 	private String name;
 	private int time;
 	private Integer bestSegment = null;
+	private boolean blankSplit;
 	transient private Urn urn;
 	transient private int index;
 	
@@ -41,7 +43,15 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 		if(index == 0){
 			return time;
 		} else {
-			return time - urn.getSplits().get(index-1).getTime();
+			int i = index - 1;
+			while(i >= 0 && urn.getSplits().get(i).isBlankSplit()){
+				i--;
+			}
+			if(i == -1){
+				return time;
+			} else {
+				return time - urn.getSplits().get(i).getTime();
+			}
 		}
 	}
 
@@ -53,6 +63,14 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 		this.bestSegment = bestSegment;
 	}
 	
+	public boolean isBlankSplit() {
+		return blankSplit;
+	}
+
+	public void setBlankSplit(boolean blankSplit) {
+		this.blankSplit = blankSplit;
+	}
+
 	public void resetBestSegment() {
 		bestSegment = getSegmentTime();
 	}
@@ -94,6 +112,21 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 			}
 			urn.fixUrnSplits();
 		}
+	}
+
+	public UrnSplit getNext() {
+		Urn urn = getUrn();
+		if (urn != null) {
+			List<UrnSplit> splits = urn.getSplits();
+			if(getIndex()+1 < splits.size()){
+				return splits.get(getIndex()+1);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+		
 	}
 
 }
