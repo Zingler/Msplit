@@ -65,7 +65,7 @@ public class MainActivity extends Activity {
 				urn = splitListUtil.load(urnString);
 				changeToRun(urn);
 			} catch (Exception e) {
-				Log.e("load", "could not load urn " + urnString);
+				Log.e("load", "could not load urn " + urnString +":"+ e.getMessage());
 				changeToFreeRun();
 			}
 		} else {
@@ -233,6 +233,7 @@ public class MainActivity extends Activity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == RESULT_OK) {
 			Urn newUrn = (Urn) data.getExtras().get("urn");
+			newUrn.fixUrnSplits();
 			changeToRun(newUrn);
 		} else if (resultCode == EditSplitActivity.DELETED_RETURN_CODE) {
 			finish();

@@ -12,6 +12,7 @@
         android:hint="Name" />
 
     <LinearLayout
+        android:id="@+id/linearLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/editdialogname"
@@ -111,5 +112,13 @@
                 android:text=".1 second" />
         </LinearLayout>
     </LinearLayout>
+
+    <CheckBox
+        android:id="@+id/blanksplitcheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/linearLayout1"
+        android:layout_centerHorizontal="true"
+        android:text="Blank Split? (time only for placement in run)" />
 
 </RelativeLayout>

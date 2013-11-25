@@ -1,10 +1,12 @@
 package com.msplit;
 
 import java.io.IOException;
+import java.util.List;
 
 import com.msplit.ResetCheckPipeline.ResetCallBack;
 import com.msplit.runmodel.RunSplit;
 import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnSplit;
 import com.msplit.urnmodel.UrnUtil;
 
 import android.app.AlertDialog;
@@ -26,7 +28,44 @@ public class ResetCheckPipeline {
 	}
 	
 	public void doResetChecks() {
-		goldSplit();
+		blankSplit();
+	}
+	
+	private void blankSplit() {
+		final List<RunSplit> blanks = runController.getFilledBlankSplits();
+		if (!blanks.isEmpty()) {
+			AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(activity);
+			alertDialogBuilder.setTitle("New Splits");
+			alertDialogBuilder.setMessage("Do you want to save the times of your blank splits?")
+			 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					for(RunSplit r : blanks){
+						r.getUrnSplit().setTime(r.getTime());
+						r.getUrnSplit().setBlankSplit(false);
+						r.getUrnSplit().invalidateBestSegment();
+						UrnSplit next = r.getUrnSplit().getNext();
+						if (next!=null) {
+							next.invalidateBestSegment();
+						}
+					}
+					try {
+						util.save(runController.getUrn());
+					} catch (IOException e) {
+						Toast.makeText(activity, "Could not save new blank splits", Toast.LENGTH_SHORT).show();
+						Log.e("file", "Could not save blank splits "+e.getMessage());
+					}
+					ResetCheckPipeline.this.goldSplit();
+				}
+			}).setNegativeButton("No", new DialogInterface.OnClickListener() {
+				public void onClick(DialogInterface dialog, int id) {
+					ResetCheckPipeline.this.goldSplit();
+				}
+			});
+			AlertDialog alertDialog = alertDialogBuilder.create();
+			alertDialog.show();
+		} else {
+			goldSplit();
+		}
 	}
 	
 	private void goldSplit() {
