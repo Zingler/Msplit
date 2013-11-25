@@ -1,6 +1,7 @@
 package com.msplit.urnmodel;
 
 import java.io.Serializable;
+import java.util.List;
 
 public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 	private static final long serialVersionUID = 1L;
@@ -111,6 +112,21 @@ public class UrnSplit implements Comparable<UrnSplit>, Serializable {
 			}
 			urn.fixUrnSplits();
 		}
+	}
+
+	public UrnSplit getNext() {
+		Urn urn = getUrn();
+		if (urn != null) {
+			List<UrnSplit> splits = urn.getSplits();
+			if(getIndex()+1 < splits.size()){
+				return splits.get(getIndex()+1);
+			} else {
+				return null;
+			}
+		} else {
+			return null;
+		}
+		
 	}
 
 }

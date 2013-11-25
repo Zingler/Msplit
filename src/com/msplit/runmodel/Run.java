@@ -62,13 +62,41 @@ public class Run {
 	}
 	
 	public int getRunDelta(){
-		if(index==0) {
+		RunSplit prev, prev2;
+		int i = index - 1;
+		while (i>=0 && runSplits.get(i).getUrnSplit().isBlankSplit()){
+			i--;
+		}
+		if(i>=0){
+			prev = runSplits.get(i);
+		} else {
+			prev = null;
+		}
+		i--;
+		while (i>=0 && runSplits.get(i).getUrnSplit().isBlankSplit()){
+			i--;
+		}
+		if(i>=0){
+			prev2 = runSplits.get(i);
+		} else {
+			prev2 = null;
+		}
+		if(prev != null && prev2 != null){
+			return prev.getSplitDelta() - prev2.getSplitDelta();
+		} else if (prev != null) {
+			return prev.getSplitDelta();
+		} else {
+			return 0;
+		}
+		
+		
+		/*if(index==0) {
 			return 0;
 		} else if (index == 1){
 			return runSplits.get(0).getSplitDelta();
 		} else {
 			return runSplits.get(index-1).getSplitDelta() - runSplits.get(index-2).getSplitDelta();
-		}
+		}*/
 	}
 
 	public boolean isDone() {

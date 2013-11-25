@@ -6,6 +6,7 @@ import java.util.List;
 import com.msplit.ResetCheckPipeline.ResetCallBack;
 import com.msplit.runmodel.RunSplit;
 import com.msplit.urnmodel.Urn;
+import com.msplit.urnmodel.UrnSplit;
 import com.msplit.urnmodel.UrnUtil;
 
 import android.app.AlertDialog;
@@ -41,6 +42,11 @@ public class ResetCheckPipeline {
 					for(RunSplit r : blanks){
 						r.getUrnSplit().setTime(r.getTime());
 						r.getUrnSplit().setBlankSplit(false);
+						r.getUrnSplit().invalidateBestSegment();
+						UrnSplit next = r.getUrnSplit().getNext();
+						if (next!=null) {
+							next.invalidateBestSegment();
+						}
 					}
 					try {
 						util.save(runController.getUrn());
