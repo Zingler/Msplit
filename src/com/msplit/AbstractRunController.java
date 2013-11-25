@@ -1,6 +1,5 @@
 package com.msplit;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -8,7 +7,6 @@ import java.util.TimerTask;
 import com.msplit.R;
 import com.msplit.runmodel.Run;
 import com.msplit.runmodel.RunSplit;
-import com.msplit.runmodel.SplitState;
 import com.msplit.urnmodel.Urn;
 
 import android.app.Activity;
@@ -113,15 +111,7 @@ public abstract class AbstractRunController {
 		return run.hasGoldSplits();
 	}
 	
-	public List<RunSplit> getFilledBlankSplits(){
-		LinkedList<RunSplit> list = new LinkedList<RunSplit>();
-		for(RunSplit r : getRunSplits()){
-			if(r.getUrnSplit().isBlankSplit() && r.getState() == SplitState.PAST){
-				list.add(r);
-			}
-		}
-		return list;
-	}
+	public abstract List<RunSplit> getFilledBlankSplits();
 	
 	public boolean isNewUrn(){
 		return run.isNewUrn();

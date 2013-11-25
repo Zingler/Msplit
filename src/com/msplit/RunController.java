@@ -1,5 +1,8 @@
 package com.msplit;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import android.app.Activity;
 
 import com.msplit.runmodel.Run;
@@ -44,5 +47,16 @@ public class RunController extends AbstractRunController {
 	@Override
 	public boolean hasDeltas() {
 		return true;
+	}
+
+	@Override
+	public List<RunSplit> getFilledBlankSplits() {
+		LinkedList<RunSplit> list = new LinkedList<RunSplit>();
+		for(RunSplit r : getRunSplits()){
+			if(r.getUrnSplit().isBlankSplit() && r.getState() == SplitState.PAST){
+				list.add(r);
+			}
+		}
+		return list;
 	}
 }
